@@ -7,7 +7,7 @@
    <net.majorkernelpanic.streaming.gl.SurfaceView
         android:id="@+id/tablet_camera_view"
         android:background="@drawable/preview"
-        android:layout_margin="20dp"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center" />

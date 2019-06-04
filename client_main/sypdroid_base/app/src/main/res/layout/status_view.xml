@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_system_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="2019/03/12 17:26"
+        android:textColor="@color/text_red"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:text="40%"
+        android:textColor="@color/text_red"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tv_system_battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_toLeftOf="@id/battery"
+        android:text="20M"
+        android:textColor="@color/text_red"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/cameramode"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:textColor="@color/text_red" />
+
+    <TextView
+        android:id="@+id/talkbackmode"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/cameramode"
+        android:textColor="@color/text_red" />
+
+    <ImageView
+        android:id="@+id/iv_system_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/statusbar_shape_bg_green"
+        android:padding="6dp"
+        android:src="@drawable/statusbar_gps_ok"
+        android:textColor="@color/text_red" />
+
+    <TextView
+        android:id="@+id/gpsdata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/iv_system_location"
+        android:text="123.56，89.78"
+        android:textColor="@color/text_red" />
+
+    <TextView
+        android:id="@+id/tv_system_net"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/text_red" />
+
+    <TextView
+        android:id="@+id/wifiintensity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/tv_system_net"
+        android:textColor="@color/text_red" />
+
+    <TextView
+        android:id="@+id/frequency"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/wifiintensity"
+        android:background="@drawable/two_four_wifi"
+        android:text=""
+        android:textColor="@color/text_red" />
+
+</RelativeLayout>

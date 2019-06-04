@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_red">#FB464A</color>
+    
+    <color name="statusbar_text_red">#FB464A</color>
+    <color name="statusbar_text_yellow">#EAC200</color>
+    <color name="statusbar_text_green">#66BB6A</color>
+    
+    <color name="bind_bg">#f1f1f1</color>
+     <!-- 列表框分隔栏颜色 -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#f0f0f0</color>
+    <color name="darkGray">#bebebe</color>
+    <color name="lightBlue">#009CFF</color>
+    <color name="blue">#009CFF</color>
+    
+    <color name="half_transparent">#33000000</color>
+    <color name="transparent">#00000000</color>
+</resources>

@@ -128,7 +128,7 @@ public class SpydroidActivity extends FragmentActivity {
 
 		mViewPager.setAdapter(mAdapter);
 
-		// Remove the ads if this is the donate version of the app.
+		// Remove the ads if this is the donate version of the app. //广告不用管
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "net.majorkernelpanic.spydroid.wakelock");
 
