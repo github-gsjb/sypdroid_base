@@ -164,7 +164,7 @@ public class StatusViewManager {
 
 	/**
 	 * ˢ��ʱ������״̬
-	 * 
+	 *
 	 * @param status
 	 */
 	private void updateTaskStatus(int status) {
@@ -243,12 +243,12 @@ public class StatusViewManager {
 
 				}
 			};
-			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
-			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-			if (location != null) {
-				latitude = location.getLatitude(); // ����
-				longitude = location.getLongitude(); // γ��
-			}
+//			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+//			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+//			if (location != null) {
+//				latitude = location.getLatitude(); // ����
+//				longitude = location.getLongitude(); // γ��
+//			}
 
 		}
 		return latitude + "/" + longitude;

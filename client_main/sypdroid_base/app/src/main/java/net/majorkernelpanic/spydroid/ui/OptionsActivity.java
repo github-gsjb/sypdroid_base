@@ -52,6 +52,7 @@ public class OptionsActivity extends PreferenceActivity {
 
 		addPreferencesFromResource(R.xml.preferences);
 
+
 		final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		final Preference videoEnabled = findPreference("stream_video");
 		final Preference audioEnabled = findPreference("stream_audio");

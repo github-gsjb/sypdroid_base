@@ -93,38 +93,37 @@ public class SpydroidActivity extends FragmentActivity {
 		mApplication = (SpydroidApplication) getApplication();
 
 		//初始化设置数据
-		final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("video_encoder" , String.valueOf(mApplication.videoEncoder));
-		editor.putString("audio_encoder" , String.valueOf(mApplication.audioEncoder));
-		editor.putString("video_framerate" , String.valueOf(mApplication.videoQuality.framerate));
-		editor.putString("video_bitrate" , String.valueOf(mApplication.videoQuality.bitrate/1000));
-		editor.putString("video_resolution" , String.valueOf(mApplication.videoQuality.resX+"x"+mApplication.videoQuality.resY));
-		editor.commit();
+		setOptionsData();
 
 
 		setContentView(R.layout.spydroid);
 
-		if (findViewById(R.id.handset_pager) != null) {
+		device = TABLET;
+		mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+		mViewPager = (ViewPager) findViewById(R.id.tablet_pager);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		SessionBuilder.getInstance().setPreviewOrientation(0);
 
-			// Handset detected !
-			mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-			mViewPager = (ViewPager) findViewById(R.id.handset_pager);
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			mSurfaceView = (SurfaceView)findViewById(R.id.handset_camera_view);
-			SessionBuilder.getInstance().setSurfaceView(mSurfaceView);
-			SessionBuilder.getInstance().setPreviewOrientation(90);
-			
-		} else {
-
-			// Tablet detected !
-			device = TABLET;
-			mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-			mViewPager = (ViewPager) findViewById(R.id.tablet_pager);
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-			SessionBuilder.getInstance().setPreviewOrientation(0);
-			
-		}
+//		if (findViewById(R.id.handset_pager) != null) {
+//
+//			// Handset detected !
+//			mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+////			mViewPager = (ViewPager) findViewById(R.id.handset_pager);
+////			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+////			mSurfaceView = (SurfaceView)findViewById(R.id.handset_camera_view);
+//			SessionBuilder.getInstance().setSurfaceView(mSurfaceView);
+//			SessionBuilder.getInstance().setPreviewOrientation(90);
+//
+//		} else {
+//
+//			// Tablet detected !
+//			device = TABLET;
+//			mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+//			mViewPager = (ViewPager) findViewById(R.id.tablet_pager);
+//			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//			SessionBuilder.getInstance().setPreviewOrientation(0);
+//
+//		}
 
 		mViewPager.setAdapter(mAdapter);
 
@@ -137,6 +136,22 @@ public class SpydroidActivity extends FragmentActivity {
 
 		// Starts the service of the RTSP server
 		this.startService(new Intent(this,CustomRtspServer.class));
+
+	}
+
+	private void setOptionsData() {
+		final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString("video_encoder" , String.valueOf(mApplication.videoEncoder));
+		editor.putString("audio_encoder" , String.valueOf(mApplication.audioEncoder));
+		editor.putString("video_framerate" , String.valueOf(mApplication.videoQuality.framerate));
+		editor.putString("video_bitrate" , String.valueOf(mApplication.videoQuality.bitrate/1000));
+		editor.putString("video_resolution" , String.valueOf(mApplication.videoQuality.resX+"x"+mApplication.videoQuality.resY));
+
+		settings.getBoolean("stream_audio", true);
+		settings.getBoolean("stream_video", true);
+
+		editor.commit();
 
 	}
 
@@ -379,7 +394,8 @@ public class SpydroidActivity extends FragmentActivity {
 
 		public HandsetFragment getHandsetFragment() {
 			if (device == HANDSET) {
-				return (HandsetFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.handset_pager+":0");
+//				return (HandsetFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.handset_pager+":0");
+				return null;
 			} else {
 				return (HandsetFragment) getSupportFragmentManager().findFragmentById(R.id.handset);
 			}
@@ -387,7 +403,8 @@ public class SpydroidActivity extends FragmentActivity {
 
 		public PreviewFragment getPreviewFragment() {
 			if (device == HANDSET) {
-				return (PreviewFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.handset_pager+":1");
+//				return (PreviewFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"+R.id.handset_pager+":1");
+				return null;
 			} else {
 				return (PreviewFragment) getSupportFragmentManager().findFragmentById(R.id.preview);
 			}

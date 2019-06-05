@@ -38,6 +38,7 @@ import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class PreviewFragment extends Fragment {
@@ -46,6 +47,7 @@ public class PreviewFragment extends Fragment {
 
 	private SurfaceView mSurfaceView;
 	private TextView mTextView;
+	private Button textshezhiBtn; //设置按钮
     private CustomHttpServer mHttpServer;
     private RtspServer mRtspServer;
 	
@@ -73,7 +75,16 @@ public class PreviewFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.preview,container,false);
 
 		mTextView = (TextView)rootView.findViewById(R.id.tooltip);
-		
+		textshezhiBtn = (Button) rootView.findViewById(R.id.textshezhi);
+
+		textshezhiBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				Intent intent = new Intent(getContext(),OptionsActivity.class);
+				startActivityForResult(intent, 0);
+			}
+		});
 		if (((SpydroidActivity)getActivity()).device == ((SpydroidActivity)getActivity()).TABLET) {
 
 			mSurfaceView = (SurfaceView)rootView.findViewById(R.id.tablet_camera_view);
