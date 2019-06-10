@@ -21,9 +21,6 @@ import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Log;
 
-import com.android.apparatus.Constant;
-import com.android.apparatus.StatusUtils;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,7 +30,7 @@ import java.util.Locale;
 @SuppressLint("NewApi")
 public class StatusViewManager {
 
-	private final int UPDATE_MIN_INTERVAL = 10000; // ï¿½ï¿½ï¿½ï¿½×´Ì¬ï¿½ï¿½Ð¡Ë¢ï¿½Â¼ï¿½ï¿½
+	private final int UPDATE_MIN_INTERVAL = 10000; // ÍøÂç×´Ì¬×îÐ¡Ë¢ÐÂ¼ä¸ô
 
 	private Context mContext;
 	private BroadcastReceiver mReceiver;
@@ -44,7 +41,7 @@ public class StatusViewManager {
 	private StatusView mStatusView;
 
 	/**
-	 * ï¿½Åºï¿½Ç¿ï¿½ï¿½×´Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
+	 * ÐÅºÅÇ¿¶È×´Ì¬¸üÐÂÏß³Ì
 	 */
 	private Runnable mSignalStrengthChangeRunnable = new Runnable() {
 		@Override
@@ -59,7 +56,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * ×¢ï¿½ï¿½ã²¥ï¿½ï¿½ï¿½ï¿½
+	 * ×¢²á¹ã²¥¼àÌý
 	 */
 	public void registerStatusBarReceiver() {
 		mContext.registerReceiver(mReceiver, mFilter);
@@ -68,7 +65,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * È¡ï¿½ï¿½ï¿½ã²¥ï¿½ï¿½ï¿½ï¿½
+	 * È¡Ïû¹ã²¥¼àÌý
 	 */
 	public void unregisterStatusBarReceiver() {
 		mContext.unregisterReceiver(mReceiver);
@@ -94,25 +91,26 @@ public class StatusViewManager {
 				String action = intent.getAction();
 
 				switch (action) {
-				// Ê±ï¿½ï¿½ã²¥
+				// Ê±¼ä¹ã²¥
 				case Intent.ACTION_TIME_TICK:
 					updateTaskStatus(Constant.TASK_STATUS_CONTINUE);
 					break;
-				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬(ï¿½ï¿½ï¿½ï¿½ï¿½Ð»ï¿½,ï¿½ï¿½ï¿½ç¿ªï¿½ï¿½)
+				// ÍøÂçÁ¬½Ó×´Ì¬(ÍøÂçÇÐ»»,ÍøÂç¿ª¹Ø)
 				case ConnectivityManager.CONNECTIVITY_ACTION:
 					updateNetWorkStatus();
 					break;
-				// WiFiï¿½Åºï¿½Ç¿ï¿½È±ä»¯
+				// WiFiÐÅºÅÇ¿¶È±ä»¯
 				case WifiManager.RSSI_CHANGED_ACTION:
 					mHandler.removeCallbacks(mSignalStrengthChangeRunnable);
 					mHandler.postDelayed(mSignalStrengthChangeRunnable, UPDATE_MIN_INTERVAL);
+					updateNetWorkStatus();
 					break;
-				// GPSï¿½ï¿½ï¿½ï¿½×´Ì¬(Gpsï¿½ï¿½ï¿½ï¿½)
+				// GPSÁ¬½Ó×´Ì¬(Gps¿ª¹Ø)
 				case LocationManager.MODE_CHANGED_ACTION:
 				case LocationManager.PROVIDERS_CHANGED_ACTION:
 					updateGpsStatus();
 					break;
-				// ï¿½ï¿½ï¿½ï¿½ï¿½ä»¯
+				// µçÁ¿±ä»¯
 				case Intent.ACTION_BATTERY_CHANGED:
 					int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
 					int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0);
@@ -126,7 +124,7 @@ public class StatusViewManager {
 			}
 		};
 
-		// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+		// ³õÊ¼»¯¸÷¸ö×´Ì¬, µçÁ¿²»ÐèÒª¿ÌÒâ³õÊ¼»¯
 		updateTaskStatus(Constant.TASK_STATUS_OK);
 		updateNetWorkStatus();
 		updateGpsStatus();
@@ -146,13 +144,13 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * Ë¢ï¿½Âµï¿½ï¿½ï¿½
+	 * Ë¢ÐÂµçÁ¿
 	 *
 	 * @param percentage
 	 */
 	private void updateBatteryStatus(int percentage) {
 
-		// ï¿½Íµï¿½ï¿½ï¿½20,15,10,5ï¿½ï¿½Ê±ï¿½ï¿½,ï¿½ï¿½ï¿½Í¾ï¿½ï¿½ï¿½ã²¥
+		// µÍµçÁ¿20,15,10,5µÄÊ±ºò,·¢ËÍ¾¯¸æ¹ã²¥
 		if (percentage == 20 || percentage == 15 || percentage == 10 || percentage == 5) {
 			StatusUtils.sendBroadcast(mContext, Constant.Action.BATTERY_STATUS, Constant.EXTRA.BATTERY_STATUS_EXTRA,
 					percentage);
@@ -163,8 +161,8 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * Ë¢ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
-	 *
+	 * Ë¢ÐÂÊ±¼äÈÎÎñ×´Ì¬
+	 * 
 	 * @param status
 	 */
 	private void updateTaskStatus(int status) {
@@ -175,7 +173,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * Ë¢ï¿½ï¿½Gps×´Ì¬
+	 * Ë¢ÐÂGps×´Ì¬
 	 */
 	private void updateGpsStatus() {
 
@@ -187,7 +185,7 @@ public class StatusViewManager {
 			status = Constant.GPS_STATUS_CLOSED;
 		}
 
-		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GPSï¿½ï¿½ï¿½ï¿½ã²¥
+		// ·¢ËÍÎÞGPS¾¯¸æ¹ã²¥
 		if (status == Constant.GPS_STATUS_CLOSED) {
 			StatusUtils.sendBroadcast(mContext, Constant.Action.GPS_STATUS, Constant.EXTRA.GPS_STATUS_EXTRA,
 					Constant.GPS_STATUS_CLOSED);
@@ -198,7 +196,7 @@ public class StatusViewManager {
 	}
 
 	/*
-	 * ï¿½ï¿½È¡ï¿½ï¿½Î³ï¿½ï¿½
+	 * »ñÈ¡¾­Î³¶È
 	 */
 	private String getLocation() {
 		double latitude = 0.0;
@@ -216,19 +214,19 @@ public class StatusViewManager {
 		}
 		if (bfind) {
 			LocationListener locationListener = new LocationListener() {
-				// Providerï¿½ï¿½enableÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GPSï¿½ï¿½ï¿½ï¿½
+				// Provider±»enableÊ±´¥·¢´Ëº¯Êý£¬±ÈÈçGPS±»´ò¿ª
 				@Override
 				public void onProviderEnabled(String provider) {
 
 				}
 
-				// Providerï¿½ï¿½disableÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½GPSï¿½ï¿½ï¿½Ø±ï¿½
+				// Provider±»disableÊ±´¥·¢´Ëº¯Êý£¬±ÈÈçGPS±»¹Ø±Õ
 				@Override
 				public void onProviderDisabled(String provider) {
 
 				}
 
-				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Providerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ê£¬ï¿½ï¿½ï¿½Í²ï¿½ï¿½á±»ï¿½ï¿½ï¿½ï¿½
+				// µ±×ø±ê¸Ä±äÊ±´¥·¢´Ëº¯Êý£¬Èç¹ûProvider´«½øÏàÍ¬µÄ×ø±ê£¬Ëü¾Í²»»á±»´¥·¢
 				@Override
 				public void onLocationChanged(Location location) {
 					if (location != null) {
@@ -243,27 +241,27 @@ public class StatusViewManager {
 
 				}
 			};
-
-//			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
-//			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//			if (location != null) {
-//				latitude = location.getLatitude(); // ï¿½ï¿½ï¿½ï¿½
-//				longitude = location.getLongitude(); // Î³ï¿½ï¿½
-//			}
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
+			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			if (location != null) {
+				latitude = location.getLatitude(); // ¾­¶È
+				longitude = location.getLongitude(); // Î³¶È
+			}
 
 		}
 		return latitude + "/" + longitude;
 	}
 
 	/**
-	 * Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åºï¿½×´Ì¬
+	 * Ë¢ÐÂÍøÂçÐÅºÅ×´Ì¬
 	 */
 	private void updateNetWorkStatus() {
+		mStatusView.refreshNetView(getMobileLevel());
 
 	}
 
 	/**
-	 * Ë¢ï¿½Â¿Õ¼ï¿½ï¿½Ð¡
+	 * Ë¢ÐÂ¿Õ¼ä´óÐ¡
 	 */
 	private void updateSpaceStatus() {
 		String space = getAvailableSpace();
@@ -271,7 +269,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * ï¿½ï¿½È¡Ê£ï¿½ï¿½Õ¼ï¿½
+	 * »ñÈ¡Ê£Óà¿Õ¼ä
 	 */
 	@SuppressLint("NewApi")
 	private String getAvailableSpace() {
@@ -297,14 +295,14 @@ public class StatusViewManager {
 			super.onSignalStrengthsChanged(signalStrength);
 			mSignalStrength = signalStrength;
 			mHandler.removeCallbacks(mSignalStrengthChangeRunnable);
-			// ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Îª500ms
+			// ×îÐ¡¸üÐÂÊ±¼äÎª500ms
 			mHandler.postDelayed(mSignalStrengthChangeRunnable, UPDATE_MIN_INTERVAL);
 		}
 
 	}
 
 	/**
-	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½Ç¿ï¿½ï¿½×´Ì¬
+	 * »ñÈ¡·äÎÑÁ¬½ÓµÄÇ¿¶È×´Ì¬
 	 *
 	 * @return
 	 */
@@ -320,20 +318,20 @@ public class StatusViewManager {
 		String[] parts = signalStrength.split(" ");
 
 		switch (mTelephonyManager.getNetworkType()) {
-		// ï¿½Æ¶ï¿½ï¿½ï¿½Í¨2G
+		// ÒÆ¶¯ÁªÍ¨2G
 		case TelephonyManager.NETWORK_TYPE_GPRS:
 		case TelephonyManager.NETWORK_TYPE_EDGE:
 			level = StatusUtils.getGsmLevel(parts);
 			break;
-		// ï¿½ï¿½ï¿½ï¿½2G
+		// µçÐÅ2G
 		case TelephonyManager.NETWORK_TYPE_CDMA:
 		case TelephonyManager.NETWORK_TYPE_1xRTT:
 			break;
-		// 4Gï¿½ï¿½ï¿½ï¿½
+		// 4GÍøÂç
 		case TelephonyManager.NETWORK_TYPE_LTE:
 			level = StatusUtils.getLteLevel(parts);
 			break;
-		// ï¿½Æ¶ï¿½3Gï¿½ï¿½ï¿½ï¿½
+		// ÒÆ¶¯3GÍøÂç
 		case TelephonyManager.NETWORK_TYPE_HSDPA:
 			level = StatusUtils.getSdcdmaLevel(parts);
 			break;

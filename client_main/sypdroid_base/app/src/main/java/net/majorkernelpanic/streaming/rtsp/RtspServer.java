@@ -94,7 +94,10 @@ public class RtspServer extends Service {
 	private final IBinder mBinder = new LocalBinder();
 	private boolean mRestart = false;
 	private final LinkedList<CallbackListener> mListeners = new LinkedList<CallbackListener>();
-	
+
+	public void startPreview(){
+
+	}
 
 	public RtspServer() {
 	}

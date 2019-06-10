@@ -289,12 +289,12 @@ public class StatusView extends RelativeLayout {
 		}
 
 		if (networkType.equals("WIFI")) {
-			// tv_wifi_net.setText(networkType);
+			 tv_wifi_net.setText(networkType);
 			tv_wifi_net.setTextColor(mContext.getResources().getColor(textColorId));
 			tv_wifi_net.setBackgroundResource(backgroudDrawableId);
 			tv_wifi_net.setTag(networkType + status);
 		} else {
-			// tv_system_net.setText(networkType);
+			 tv_system_net.setText(networkType);
 			tv_system_net.setTextColor(mContext.getResources().getColor(textColorId));
 			tv_system_net.setBackgroundResource(backgroudDrawableId);
 			tv_system_net.setTag(networkType + status);

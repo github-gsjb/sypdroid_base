@@ -49,6 +49,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * 显示rtsp: 推流的悬浮文字提示界面
+ */
 public class HandsetFragment extends Fragment {
 
 	public final static String TAG = "HandsetFragment";
