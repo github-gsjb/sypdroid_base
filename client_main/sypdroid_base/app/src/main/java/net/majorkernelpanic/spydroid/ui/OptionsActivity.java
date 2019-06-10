@@ -65,8 +65,8 @@ public class OptionsActivity extends PreferenceActivity {
 		final CheckBoxPreference  httpsEnabled = (CheckBoxPreference) findPreference("use_https");
 		final CheckBoxPreference  rtspEnabled = (CheckBoxPreference) findPreference("rtsp_enabled");
 
-		final Preference httpPort = findPreference(KEY_HTTP_PORT);
-		final Preference httpsPort = findPreference(KEY_HTTPS_PORT);
+		final Preference httpPort = findPreference(KEY_HTTP_PORT); //HTTP的不用管
+		final Preference httpsPort = findPreference(KEY_HTTPS_PORT); //HTTP的不用管
 
 		boolean videoState = settings.getBoolean("stream_video", true);
 		videoEncoder.setEnabled(videoState);

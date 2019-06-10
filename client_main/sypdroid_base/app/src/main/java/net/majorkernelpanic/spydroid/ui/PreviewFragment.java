@@ -27,6 +27,8 @@ import net.majorkernelpanic.spydroid.api.CustomRtspServer;
 import net.majorkernelpanic.streaming.SessionBuilder;
 import net.majorkernelpanic.streaming.gl.SurfaceView;
 import net.majorkernelpanic.streaming.rtsp.RtspServer;
+import net.majorkernelpanic.streaming.video.H264Stream;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +50,7 @@ public class PreviewFragment extends Fragment {
 	private SurfaceView mSurfaceView;
 	private TextView mTextView;
 	private Button textshezhiBtn; //设置按钮
+	private Button paizhaoiBtn; //设置按钮
     private CustomHttpServer mHttpServer;
     private RtspServer mRtspServer;
 	
@@ -85,11 +88,21 @@ public class PreviewFragment extends Fragment {
 				startActivityForResult(intent, 0);
 			}
 		});
+
+		paizhaoiBtn = (Button) rootView.findViewById(R.id.paizhao);
+		paizhaoiBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+//				SessionBuilder.getInstance().h264Stream.doTakePicture(); //拍照
+				H264Stream h264Stream = new H264Stream();
+				h264Stream.doTakePicture(); //拍照
+			}
+		});
+
 		if (((SpydroidActivity)getActivity()).device == ((SpydroidActivity)getActivity()).TABLET) {
 
 			mSurfaceView = (SurfaceView)rootView.findViewById(R.id.tablet_camera_view);
 			SessionBuilder.getInstance().setSurfaceView(mSurfaceView);
-
 		} 
 		
 		return rootView;

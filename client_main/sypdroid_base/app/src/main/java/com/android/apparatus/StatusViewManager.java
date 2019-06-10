@@ -243,6 +243,7 @@ public class StatusViewManager {
 
 				}
 			};
+
 //			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
 //			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 //			if (location != null) {

@@ -27,11 +27,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.apparatus.StatusView;
+
 public class TabletFragment extends Fragment {
+
+	private StatusView statusView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.tablet,container,false);
+
+//		statusView.registerStatusBarReceiver();
+//		statusView = (StatusView) rootView.findViewById(R.id.status_bar);
+//		statusView.registerStatusBarReceiver();
+
 		return rootView ;
 	}
 

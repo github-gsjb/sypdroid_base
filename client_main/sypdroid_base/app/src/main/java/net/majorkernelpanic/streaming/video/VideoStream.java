@@ -38,6 +38,8 @@ import net.majorkernelpanic.streaming.rtp.MediaCodecInputStream;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Parameters;
@@ -51,7 +53,14 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 
-/** 
+import com.bl.FileUtil;
+import com.bl.ImageUtil;
+import com.google.android.gms.vision.CameraSource;
+
+
+//
+/**
+ * 启动相机 , 当流流开始的时候
  * Don't use this class directly.
  */
 public abstract class VideoStream extends MediaStream {
@@ -301,7 +310,10 @@ public abstract class VideoStream extends MediaStream {
 			createCamera();
 			updateCamera();
 			try {
-				mCamera.startPreview();
+				mCamera.startPreview(); //开始预览
+				mCamera.autoFocus(null); //自动对焦
+//				mCamera.takePicture((Camera.ShutterCallback) mShutterCallback, null, (Camera.PictureCallback) mJpegPictureCallback);
+
 				mPreviewStarted = true;
 			} catch (RuntimeException e) {
 				destroyCamera();
@@ -418,6 +430,7 @@ public abstract class VideoStream extends MediaStream {
 		if (!mPreviewStarted) {
 			try {
 				mCamera.startPreview();
+				mCamera.autoFocus(null); //自动对焦
 				mPreviewStarted = true;
 			} catch (RuntimeException e) {
 				destroyCamera();
@@ -640,6 +653,7 @@ public abstract class VideoStream extends MediaStream {
 			mCamera.setParameters(parameters);
 			mCamera.setDisplayOrientation(mOrientation);
 			mCamera.startPreview();
+			mCamera.autoFocus(null); //自动对焦
 			mPreviewStarted = true;
 		} catch (RuntimeException e) {
 			destroyCamera();
@@ -713,6 +727,146 @@ public abstract class VideoStream extends MediaStream {
 
 		mCamera.setPreviewCallback(null);
 
-	}	
+	}
+
+	/**
+	 * 拍照
+	 */
+	public void doTakePicture(){
+//		mCamera.takePicture((Camera.ShutterCallback) mShutterCallback, null, null);
+//		mCamera.takePicture(new Camera.ShutterCallback() {
+//			@Override
+//			public void onShutter() {
+//				Log.i(TAG, "myShutterCallback:onShutter...");
+//			}
+//		}, new Camera.PictureCallback() {
+//			@Override
+//			public void onPictureTaken(byte[] data, Camera camera) {
+//
+//			}
+//		}, new Camera.PictureCallback() {
+//			@Override
+//			public void onPictureTaken(byte[] data, Camera camera) {
+//				// TODO Auto-generated method stub
+//				Log.i(TAG, "myJpegCallback:onPictureTaken...");
+//				Bitmap b = null;
+//				if(null != data){
+//					b = BitmapFactory.decodeByteArray(data, 0, data.length);//data是字节数据，将其解析成位图
+//					mCamera.stopPreview();
+//					mPreviewStarted = false;
+//				}
+//				//保存图片到sdcard
+//				if(null != b)
+//				{
+//					//设置FOCUS_MODE_CONTINUOUS_VIDEO)之后，myParam.set("rotation", 90)失效。
+//					//图片竟然不能旋转了，故这里要旋转下
+//					Bitmap rotaBitmap = ImageUtil.getRotateBitmap(b, 90.0f);
+//					FileUtil.saveBitmap(rotaBitmap);
+//				}
+//				//再次进入预览
+//				mCamera.startPreview();
+//				mPreviewStarted = true;
+//			}
+//
+//		});
+
+
+
+		mCamera.takePicture(new Camera.ShutterCallback() {//按下快门
+			@Override
+			public void onShutter() {
+				//按下快门瞬间的操作
+			}
+		}, new Camera.PictureCallback() {
+			@Override
+			public void onPictureTaken(byte[] data, Camera camera) {//是否保存原始图片的信息
+
+			}
+		}, mJpegPictureCallback);
+
+		Log.i(TAG, "拍照成功");
+
+//		if(mPreviewStarted && (mCamera != null)){
+//			mCamera.takePicture(new Camera.ShutterCallback() {
+//				@Override
+//				public void onShutter() {
+//					Log.i(TAG, "myShutterCallback:onShutter...");
+//				}
+//			}, null, new Camera.PictureCallback() {
+//				@Override
+//				public void onPictureTaken(byte[] data, Camera camera) {
+//					// TODO Auto-generated method stub
+//					Log.i(TAG, "myJpegCallback:onPictureTaken...");
+//					Bitmap b = null;
+//					if(null != data){
+//						b = BitmapFactory.decodeByteArray(data, 0, data.length);//data是字节数据，将其解析成位图
+//						mCamera.stopPreview();
+//						mPreviewStarted = false;
+//					}
+//					//保存图片到sdcard
+//					if(null != b)
+//					{
+//						//设置FOCUS_MODE_CONTINUOUS_VIDEO)之后，myParam.set("rotation", 90)失效。
+//						//图片竟然不能旋转了，故这里要旋转下
+//						Bitmap rotaBitmap = ImageUtil.getRotateBitmap(b, 90.0f);
+//						FileUtil.saveBitmap(rotaBitmap);
+//					}
+//					//再次进入预览
+//					mCamera.startPreview();
+//					mPreviewStarted = true;
+//				}
+//
+//			});
+//		}
+	}
+
+	/*为了实现拍照的快门声音及拍照保存照片需要下面三个回调变量*/
+	Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback()
+			//快门按下的回调，在这里我们可以设置类似播放“咔嚓”声之类的操作。默认的就是咔嚓。
+	{
+		public void onShutter() {
+			// TODO Auto-generated method stub
+			Log.i(TAG, "myShutterCallback:onShutter...");
+		}
+	};
+	CameraSource.PictureCallback mRawCallback = new CameraSource.PictureCallback()
+			// 拍摄的未压缩原数据的回调,可以为null
+	{
+
+		@Override
+		public void onPictureTaken(byte[] bytes) {
+
+		}
+
+	};
+	Camera.PictureCallback mJpegPictureCallback = new Camera.PictureCallback()
+			//对jpeg图像数据的回调,最重要的一个回调
+	{
+		@Override
+		public void onPictureTaken(byte[] data, Camera camera) {
+			// TODO Auto-generated method stub
+			Log.i(TAG, "myJpegCallback:onPictureTaken...");
+			Bitmap b = null;
+			if(null != data){
+				b = BitmapFactory.decodeByteArray(data, 0, data.length);//data是字节数据，将其解析成位图
+				mCamera.stopPreview();
+				mPreviewStarted = false;
+			}
+			//保存图片到sdcard
+			if(null != b)
+			{
+				//设置FOCUS_MODE_CONTINUOUS_VIDEO)之后，myParam.set("rotation", 90)失效。
+				//图片竟然不能旋转了，故这里要旋转下
+				Bitmap rotaBitmap = ImageUtil.getRotateBitmap(b, 90.0f);
+				FileUtil.saveBitmap(rotaBitmap);
+			}
+			//再次进入预览
+			mCamera.startPreview();
+			mPreviewStarted = true;
+		}
+
+
+	};
+
 
 }

@@ -63,6 +63,17 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.apparatus.Constant;
+import com.android.apparatus.serialport.Device;
+import com.android.apparatus.serialport.SerialPortFinder;
+import com.android.apparatus.serialport.SerialPortManager;
+import com.android.apparatus.serialport.listener.OnSerialPortDataListener;
+import com.android.apparatus.utils.Utils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /** 
  * Spydroid basically launches an RTSP server and an HTTP server, 
  * clients can then connect to them and start/stop audio/video streams on the phone.
@@ -84,6 +95,8 @@ public class SpydroidActivity extends FragmentActivity {
 	private SpydroidApplication mApplication;
 	private CustomHttpServer mHttpServer;
 	private RtspServer mRtspServer;
+
+	private SerialPortManager mSerialPortManager;
 
 	@SuppressLint("InvalidWakeLockTag")
 	public void onCreate(Bundle savedInstanceState) {
@@ -151,6 +164,10 @@ public class SpydroidActivity extends FragmentActivity {
 		settings.getBoolean("stream_audio", true);
 		settings.getBoolean("stream_video", true);
 
+		editor.putInt("video_resX", 1920);
+		editor.putInt("video_resY", 1080);
+		editor.commit();
+
 		editor.commit();
 
 	}
@@ -198,7 +215,114 @@ public class SpydroidActivity extends FragmentActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		mApplication.applicationForeground = true;
+//		mApplication.applicationForeground = true;
+//		mSerialPortManager = new SerialPortManager();
+//
+////		发送串口数据
+////		mSerialPortManager.sendBytes();
+//		SerialPortFinder serialPortFinder = new SerialPortFinder();
+//		ArrayList<Device> devices = serialPortFinder.getDevices();
+//		for (int i = 0; i < devices.size(); i++) {
+//			File file = devices.get(i).getFile();
+//
+//			boolean openSerialPort = mSerialPortManager.setOnOpenSerialPortListener(this)
+//					.setOnSerialPortDataListener(new OnSerialPortDataListener() {
+//						@Override
+//						public void onDataReceived(byte[] bytes) {
+//							Log.i(TAG, "onDataReceived [ byte[] ]: " + Arrays.toString(bytes));
+//							Log.i(TAG, "onDataReceived [ String ]: " + new String(bytes));
+//							final byte[] finalBytes = bytes;
+//
+//							String textTemp = Utils.bytesToHexString(finalBytes);
+////                            if (textTemp.contains("09")){
+////                                Intent intent = new Intent(MainActivity.this, FileGalleryActivity.class);
+////                                startActivity(intent);
+////                                return;
+////                            }
+////                            if (Constant.KEYCODE_ON.contains(textTemp)) {
+////                                textTemp = Constant.KEYCODE_ON;
+////                            }else if (Constant.KEYCODE_OK.contains(textTemp)) {
+////                                textTemp = Constant.KEYCODE_OK;
+////                            }
+//
+//							final String text = textTemp;
+//							runOnUiThread(new Runnable() {
+//								@Override
+//								public void run() {
+////									showToast(String.format("接收\n%s", text));
+//
+//									switch (text) {
+//										//菜单键
+//										case Constant.KEYCODE_MENU:
+////											downPopwindow();
+//											break; // 可选
+//										case Constant.KEYCODE_UP:
+////											mainSelectPostion = mainSelectPostion - 1;
+////											mainAdapter.setSelectItem(mainSelectPostion);
+////											mainAdapter.notifyDataSetChanged();
+//											break; // 可选
+//										case Constant.KEYCODE_DOWN:
+////											if (mainlist.hasFocus()) {
+////												mainSelectPostion = mainSelectPostion + 1;
+////												if (mainSelectPostion == 12 && !isGetVersion) {
+////													isGetVersion = true;
+////													String version = Utils.getVersion(MainActivity.this);
+////													String ver = MORELISTVIEWTXT[mainSelectPostion][0] + version;
+////													String[] a = ver.split("\\n");
+////													MORELISTVIEWTXT[mainSelectPostion] = a;
+////												}
+////												inintAdapter(MORELISTVIEWTXT[mainSelectPostion]);
+////												mainAdapter.setSelectItem(mainSelectPostion);
+////												mainAdapter.notifyDataSetChanged();
+////											}
+//
+//											break; // 可选
+//										case Constant.KEYCODE_OK:
+////											Intent intent = new Intent(MainActivity.this, FileGalleryActivity.class);
+////											startActivity(intent);
+//											break; // 可选
+//										case Constant.KEYCODE_ON:
+//
+//											break; // 可选
+//										case Constant.KEYCODE_LEFT:
+//
+//											break; // 可选
+//										case Constant.KEYCODE_RIGHT:
+//
+//											break; // 可选
+//										case Constant.KEYCODE_BACK:
+//
+//											break; // 可选
+//
+//										default: // 可选
+//											break;
+//									}
+//
+//									if (text.equals(Constant.KEYCODE_MENU)) {
+////										downPopwindow();
+//									}
+//
+//								}
+//							});
+//						}
+//
+//						@Override
+//						public void onDataSent(byte[] bytes) {
+//							Log.i(TAG, "onDataSent [ byte[] ]: " + Arrays.toString(bytes));
+//							Log.i(TAG, "onDataSent [ String ]: " + new String(bytes));
+//							final byte[] finalBytes = bytes;
+//							runOnUiThread(new Runnable() {
+//								@Override
+//								public void run() {
+////									showToast(String.format("发送\n%s", new String(finalBytes)));
+//								}
+//							});
+//						}
+//					}).openSerialPort(file, 115200);
+//
+//			Log.i(TAG, "onCreate: openSerialPort = " + openSerialPort);
+//		}
+
 	}
 
 	@Override
@@ -211,6 +335,7 @@ public class SpydroidActivity extends FragmentActivity {
 	public void onDestroy() {
 		Log.d(TAG,"SpydroidActivity destroyed");
 		super.onDestroy();
+		quitSpydroid();
 	}
 
 	@Override    

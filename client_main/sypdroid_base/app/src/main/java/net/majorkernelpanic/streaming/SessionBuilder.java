@@ -76,6 +76,7 @@ public class SessionBuilder {
 	private String mDestination = null;
 	private Session.Callback mCallback = null;
 
+	public H264Stream h264Stream;
 	// Removes the default public constructor
 	private SessionBuilder() {}
 
@@ -128,10 +129,10 @@ public class SessionBuilder {
 			session.addVideoTrack(new H263Stream(mCamera));
 			break;
 		case VIDEO_H264:
-			H264Stream stream = new H264Stream(mCamera);
-			if (mContext!=null) 
-				stream.setPreferences(PreferenceManager.getDefaultSharedPreferences(mContext));
-			session.addVideoTrack(stream);
+			h264Stream = new H264Stream(mCamera); //设置相机的参数为h264
+			if (mContext!=null)
+				h264Stream.setPreferences(PreferenceManager.getDefaultSharedPreferences(mContext));
+			session.addVideoTrack(h264Stream);
 			break;
 		}
 

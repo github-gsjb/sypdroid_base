@@ -47,7 +47,10 @@
 
         <service android:name="net.majorkernelpanic.spydroid.api.CustomHttpServer"/>
         <service android:name="net.majorkernelpanic.spydroid.api.CustomRtspServer"/>
-        
+
+
+
+
     </application>
 
 </manifest>

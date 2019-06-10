@@ -151,4 +151,37 @@ public class SurfaceView extends android.view.SurfaceView implements Runnable, O
 		mRunning = false;
 	}
 
+	//拍照
+//	public void takePicture()
+//	{
+//		if (camera != null)
+//		{
+//			camera.takePicture(null, null, jpegCallback);
+//		}
+//	}
+//
+//	//拍照并且保存的回调函数
+//
+//	private PictureCallback jpegCallback = new PictureCallback() {
+//
+//		public void onPictureTaken(byte[] data, Camera camera) {
+//			// TODO Auto-generated method stub
+//			try
+//			{
+//				bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+//				File file = new File("/sdcard/camera1.jpg");
+//				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+//				bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos);
+//				bos.flush();
+//				bos.close();
+//				Canvas  canvas= sfholder.lockCanvas();
+//				canvas.drawBitmap(bitmap, 0,0, null);
+//				sfholder.unlockCanvasAndPost(canvas);
+//			}
+//			catch(Exception e)
+//			{
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 }
