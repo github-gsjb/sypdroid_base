@@ -24,6 +24,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.hardware.Camera;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ import net.majorkernelpanic.streaming.SessionBuilder;
 import net.majorkernelpanic.streaming.gl.SurfaceView;
 import net.majorkernelpanic.streaming.rtsp.RtspServer;
 import net.majorkernelpanic.streaming.video.H264Stream;
+import net.majorkernelpanic.streaming.video.VideoStream;
 
 import java.lang.reflect.Method;
 
@@ -55,7 +57,7 @@ public class PreviewFragment extends Fragment {
     private SurfaceView mSurfaceView;
     private TextView mTextView;
     private Button textshezhiBtn; //设置按钮
-    private Button paizhaoiBtn; //设置按钮
+    private Button paizhaoiBtn; //拍照按钮
     //打开热点按钮
     private Button btnOpenWifiHotspot;
     private CustomHttpServer mHttpServer;
@@ -115,8 +117,18 @@ public class PreviewFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //				SessionBuilder.getInstance().h264Stream.doTakePicture(); //拍照
-                H264Stream h264Stream = new H264Stream();
-                h264Stream.doTakePicture(); //拍照
+//                SessionBuilder.getInstance().doTakePicture();
+                SessionBuilder.getInstance().getH264Stream().doTakePicture();
+//                new VideoStream() {
+//                    @Override
+//                    public String getSessionDescription() throws IllegalStateException {
+//                        return null;
+//                    }
+//                }.doTakePicture();
+//                Camera rCamera = SessionBuilder.getInstance().h264Stream.getMCamera();
+
+//                H264Stream h264Stream = new H264Stream();
+//                h264Stream.doTakePicture(); //拍照
             }
         });
 

@@ -76,7 +76,7 @@ public class SessionBuilder {
 	private String mDestination = null;
 	private Session.Callback mCallback = null;
 
-	public H264Stream h264Stream;
+	public static H264Stream h264Stream;
 	// Removes the default public constructor
 	private SessionBuilder() {}
 
@@ -154,6 +154,11 @@ public class SessionBuilder {
 		return session;
 
 	}
+
+	/**
+	 * 返回h264Stream
+	 * */
+	public H264Stream getH264Stream(){return  h264Stream;}
 
 	/** 
 	 * Access to the context is needed for the H264Stream class to store some stuff in the SharedPreferences.
@@ -310,5 +315,10 @@ public class SessionBuilder {
 		.setContext(mContext)
 		.setCallback(mCallback);
 	}
+
+	public void doTakePicture(){
+		h264Stream.doTakePicture();
+
+	};
 
 }
