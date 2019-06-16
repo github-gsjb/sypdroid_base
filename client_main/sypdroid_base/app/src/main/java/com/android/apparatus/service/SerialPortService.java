@@ -8,15 +8,20 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.android.apparatus.Constant;
+import com.android.apparatus.activity.MenuActivity;
+import com.android.apparatus.model.CmdBean;
+import com.android.apparatus.model.CmdBeanParser;
 import com.android.apparatus.serialport.Device;
 import com.android.apparatus.serialport.SerialPortFinder;
 import com.android.apparatus.serialport.SerialPortManager;
+import com.android.apparatus.serialport.SerialPortReceiveDataEvent;
 import com.android.apparatus.serialport.listener.OnOpenSerialPortListener;
 import com.android.apparatus.serialport.listener.OnSerialPortDataListener;
 import com.android.apparatus.utils.LoggerUtil;
+import com.android.apparatus.utils.StringHexUtils;
 import com.android.apparatus.utils.Utils;
-import com.laile.serialport.SerialPort;
-import com.laile.serialport.SerialPortDataManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,15 +60,8 @@ public class SerialPortService extends Service {
         return null;
     }
 
-    SerialPortDataManager mSerialPortManager;
-    SerialPort mSerialPort;
-    SerialPortDataManager.ReceiveListener mlistener = new SerialPortDataManager.ReceiveListener() {
-        @Override
-        public void onReceive(int what, byte[] bean) {
-
-        }
-    };
     String TAG = "SerialPortService";
+    SerialPortManager mSerialPortManager;
 
     @Override
     public void onCreate() {
@@ -71,24 +69,7 @@ public class SerialPortService extends Service {
         LoggerUtil.println("创建了SerialPortService");
         mSerialPortService = this;
         //创建串口数据管理类
-        try {
-            String path = "/dev/ttyS1";
-            int baudrate = 115200;
-            mSerialPortManager = SerialPortDataManager.getInstance(path, baudrate, 0, mlistener);
-            mSerialPort = mSerialPortManager.getSerialPort();
-            LoggerUtil.println("串口0000000000000初始化");
-            if (mSerialPort != null) {
-                //初始化成功
-                LoggerUtil.println("打开串口成功");
-                // Toast.makeText(context,"打开串口成功",Toast.LENGTH_SHORT).show();
-            } else {
-                // Toast.makeText(context,"打开串口失败",Toast.LENGTH_SHORT).show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            LoggerUtil.println("串口Laile20初始化失败");
-        }
-
+        //串口打开的监听器
         OnOpenSerialPortListener mListener = new OnOpenSerialPortListener() {
             @Override
             public void onSuccess(File device) {
@@ -100,82 +81,78 @@ public class SerialPortService extends Service {
 
             }
         };
-
-        SerialPortManager mSerialPortManager = new SerialPortManager();
+        //串口管理类
+        mSerialPortManager = new SerialPortManager();
+        String devPath = "/dev/ttyS1";///dev/ttyS1
+//         File devFile = new File(devPath);
+        int baudRate = 115200;
         //发送串口数据
 //		mSerialPortManager.sendBytes();
         SerialPortFinder serialPortFinder = new SerialPortFinder();
         ArrayList<Device> devices = serialPortFinder.getDevices();
         for (int i = 0; i < devices.size(); i++) {
-            final File file = devices.get(i).getFile();
+            final File devFile = devices.get(i).getFile();
+//            if (file.getAbsolutePath().contains("ttyS1")){
+//                devFile=file;
+//            }
+//        }
             boolean openSerialPort = mSerialPortManager.setOnOpenSerialPortListener(mListener).setOnSerialPortDataListener(new OnSerialPortDataListener() {
-                        @Override
-                        public void onDataReceived(byte[] bytes) {
-                            Log.i(TAG, "onDataReceived [ byte[] ]: " + Arrays.toString(bytes));
-                            Log.i(TAG, "onDataReceived [ String ]: " + new String(bytes));
-                            final byte[] finalBytes = bytes;
-
-                            String textTemp = Utils.bytesToHexString(finalBytes);
-//                            if (textTemp.contains("09")){
-//                                Intent intent = new Intent(MainActivity.this, FileGalleryActivity.class);
-//                                startActivity(intent);
-//                                return;
-//                            }
-//                            if (Constant.KEYCODE_ON.contains(textTemp)) {
-//                                textTemp = Constant.KEYCODE_ON;
-//                            }else if (Constant.KEYCODE_OK.contains(textTemp)) {
-//                                textTemp = Constant.KEYCODE_OK;
-//                            }
-                            final String text = textTemp;
-                            LoggerUtil.println(String.format("接收\n%s" + file.getAbsolutePath(), text));
-
-                            switch (text) {
-                                //菜单键
-                                case Constant.KEYCODE_MENU:
-                                    break; // 可选
-                                case Constant.KEYCODE_UP:
-                                    break; // 可选
-                                case Constant.KEYCODE_DOWN:
-                                    break; // 可选
-                                case Constant.KEYCODE_OK:
-                                    break; // 可选
-                                case Constant.KEYCODE_ON:
-
-                                    break; // 可选
-                                case Constant.KEYCODE_LEFT:
-
-                                    break; // 可选
-                                case Constant.KEYCODE_RIGHT:
-
-                                    break; // 可选
-                                case Constant.KEYCODE_BACK:
-
-                                    break; // 可选
-
-                                default: // 可选
-                                    break;
+                @Override
+                public void onDataReceived(byte[] bytes) {
+                    if (bytes != null && bytes.length > 0) {
+                        for (int i = 0; i < bytes.length; i++) {
+                            CmdBean cmdBean = CmdBeanParser.parseData(bytes[i]);
+                            if (cmdBean != null) {
+                                String receiveData = StringHexUtils.ByteArrToHex(cmdBean.getBytes());
+                                LoggerUtil.println("串口接收的dataBean", receiveData);
+                                //发送EventBus
+                                //使用eventBus发送数据
+                                receiveData=receiveData.trim().replace(" ", "");
+                                EventBus.getDefault().post(new SerialPortReceiveDataEvent(receiveData, bytes));
+                                paserReceiverData(receiveData);
                             }
-
-                            if (text.equals(Constant.KEYCODE_MENU)) {
-                            }
-
                         }
+                    }
+                }
 
-                        @Override
-                        public void onDataSent(byte[] bytes) {
-                            Log.i(TAG, "onDataSent [ byte[] ]: " + Arrays.toString(bytes));
-                            Log.i(TAG, "onDataSent [ String ]: " + new String(bytes));
-                            final byte[] finalBytes = bytes;
+                @Override
+                public void onDataSent(byte[] bytes) {
+                    Log.i(TAG, "onDataSent [ byte[] ]: " + Arrays.toString(bytes));
+                    Log.i(TAG, "onDataSent [ String ]: " + new String(bytes));
+                    final byte[] finalBytes = bytes;
 //                            showToast(String.format("发送\n%s", new String(finalBytes)));
-                        }
-                    }).openSerialPort(file, 115200);
-
+                }
+            }).openSerialPort(devFile, baudRate);
             Log.i(TAG, "onCreate: openSerialPort = " + openSerialPort);
         }
     }
 
+    //解析数据，处理
+    private void paserReceiverData(String datas) {
+        switch (datas) {
+            case Constant.KEYCODE_UP:
+                break; // 可选
+            //菜单键
+            case Constant.KEYCODE_MENU:
+                Intent intent = new Intent(SerialPortService.this, MenuActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break; // 可选
+            case Constant.KEYCODE_RIGHT:
+                break; // 可选
+            case Constant.KEYCODE_DOWN:
+                break; // 可选
+            case Constant.KEYCODE_OK:
+                break; // 可选
+            case Constant.KEYCODE_BACK:
+                break; // 可选
+            default: // 可选
+                break;
+        }
+    }
+
     public void sendSerialPortData(byte[] datas) {
-        mSerialPortManager.write(datas);
+        mSerialPortManager.sendBytes(datas);
     }
 
     public static SerialPortService getInstance() {

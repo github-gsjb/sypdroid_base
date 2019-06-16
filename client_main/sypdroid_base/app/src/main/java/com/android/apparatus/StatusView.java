@@ -40,14 +40,14 @@ public class StatusView extends RelativeLayout {
 	}
 
 	/**
-	 * 注册广播监听
+	 * 脳垄虏谩鹿茫虏楼录脿脤媒
 	 */
 	public void registerStatusBarReceiver() {
 		mStatusManager.registerStatusBarReceiver();
 	}
 
 	/**
-	 * 取消广播监听
+	 * 脠隆脧没鹿茫虏楼录脿脤媒
 	 */
 	public void unregisterStatusBarReceiver() {
 		mStatusManager.unregisterStatusBarReceiver();
@@ -70,7 +70,7 @@ public class StatusView extends RelativeLayout {
 	}
 
 	/**
-	 * 刷新电量布局
+	 * 脣垄脨脗碌莽脕驴虏录戮脰
 	 * 
 	 * @param percentage
 	 */
@@ -88,7 +88,7 @@ public class StatusView extends RelativeLayout {
 
 		int status;
 
-		// 高电量
+		// 赂脽碌莽脕驴
 		if (percentage > 50) {
 			if (currentPercentage > 50) {
 				status = Constant.BATTERY_STATUS_CONTINUE;
@@ -96,14 +96,14 @@ public class StatusView extends RelativeLayout {
 				status = Constant.BATTERY_STATUS_OK;
 			}
 		} else if (percentage > 20) {
-			// 半电量
+			// 掳毛碌莽脕驴
 			if (currentPercentage > 20) {
 				status = Constant.BATTERY_STATUS_CONTINUE;
 			} else {
 				status = Constant.BATTERY_STATUS_WEAK;
 			}
 		} else {
-			// 弱电量
+			// 脠玫碌莽脕驴
 			if (currentPercentage <= 20) {
 				status = Constant.BATTERY_STATUS_CONTINUE;
 			} else {
@@ -114,24 +114,24 @@ public class StatusView extends RelativeLayout {
 		int textColorId;
 		int backgroudDrawableId;
 
-		// 只刷新电量,颜色不变
+		// 脰禄脣垄脨脗碌莽脕驴,脩脮脡芦虏禄卤盲
 		if (status == Constant.BATTERY_STATUS_CONTINUE) {
 			tv_system_battery.setText(batteryInfo);
 			return;
 		}
 
 		switch (status) {
-		// 正常
+		// 脮媒鲁拢
 		case Constant.BATTERY_STATUS_OK:
 			textColorId = R.color.statusbar_text_green;
 			backgroudDrawableId = R.drawable.statusbar_shape_bg_green;
 			break;
-		// 警告
+		// 戮炉赂忙
 		case Constant.BATTERY_STATUS_WEAK:
 			textColorId = R.color.statusbar_text_yellow;
 			backgroudDrawableId = R.drawable.statusbar_shape_bg_yellow;
 			break;
-		// 低电量
+		// 碌脥碌莽脕驴
 		case Constant.BATTERY_STATUS_LOST:
 			textColorId = R.color.statusbar_text_red;
 			backgroudDrawableId = R.drawable.statusbar_shape_bg_red;
@@ -149,31 +149,31 @@ public class StatusView extends RelativeLayout {
 	}
 
 	/**
-	 * 刷新时间布局
+	 * 脣垄脨脗脢卤录盲虏录戮脰
 	 */
 	void refreshTimeView(String time, int status) {
 
 		int textColorId;
 		int backgroudDrawableId;
 
-		// 只刷新时间数值,颜色不变
+		// 脰禄脣垄脨脗脢卤录盲脢媒脰碌,脩脮脡芦虏禄卤盲
 		if (status == Constant.TASK_STATUS_CONTINUE) {
 			tv_system_time.setText(time);
 			return;
 		}
 
 		switch (status) {
-		// 正常
+		// 脮媒鲁拢
 		case Constant.TASK_STATUS_OK:
 			textColorId = R.color.statusbar_text_green;
 			backgroudDrawableId = R.drawable.statusbar_shape_bg_green;
 			break;
-		// 警告
+		// 戮炉赂忙
 		case Constant.TASK_STATUS_EDGE:
 			textColorId = R.color.statusbar_text_yellow;
 			backgroudDrawableId = R.drawable.statusbar_shape_bg_yellow;
 			break;
-		// 超时
+		// 鲁卢脢卤
 		case Constant.TASK_STATUS_OVER:
 			textColorId = R.color.statusbar_text_red;
 			backgroudDrawableId = R.drawable.statusbar_shape_bg_red;
@@ -191,7 +191,7 @@ public class StatusView extends RelativeLayout {
 	}
 
 	/**
-	 * 根据Gps信号状态，刷新Gps布局
+	 * 赂霉戮脻Gps脨脜潞脜脳麓脤卢拢卢脣垄脨脗Gps虏录戮脰
 	 */
 	void refreshGpsView(int status, String loction) {
 
@@ -228,7 +228,7 @@ public class StatusView extends RelativeLayout {
 	}
 
 	/**
-	 * 刷新空间
+	 * 脣垄脨脗驴脮录盲
 	 */
 	void refreshSpacelView(String space) {
 		tv_system_space.setTextColor(mContext.getResources().getColor(R.color.statusbar_text_green));
@@ -236,16 +236,16 @@ public class StatusView extends RelativeLayout {
 	}
 
 	/**
-	 * 根据网络类型和网络状态，刷新网络布局
+	 * 赂霉戮脻脥酶脗莽脌脿脨脥潞脥脥酶脗莽脳麓脤卢拢卢脣垄脨脗脥酶脗莽虏录戮脰
 	 */
 	void refreshSignalView(String networkType, int status) {
 
 		int textColorId;
 		int backgroudDrawableId;
 
-		// 网络状态不改变时,不做任何界面刷新处理
+		// 脥酶脗莽脳麓脤卢虏禄赂脛卤盲脢卤,虏禄脳枚脠脦潞脦陆莽脙忙脣垄脨脗麓娄脌铆
 		switch (status) {
-		// 正常绿色
+		// 脮媒鲁拢脗脤脡芦
 		case Constant.NET_STATUS_OK:
 			textColorId = R.color.statusbar_text_green;
 			// backgroudDrawableId = R.drawable.statusbar_shape_bg_green;
@@ -255,7 +255,7 @@ public class StatusView extends RelativeLayout {
 				backgroudDrawableId = R.drawable.signal_0_fully;
 			}
 			break;
-		// 微弱黄色
+		// 脦垄脠玫禄脝脡芦
 		case Constant.NET_STATUS_WEAK:
 			textColorId = R.color.statusbar_text_yellow;
 			// backgroudDrawableId = R.drawable.statusbar_shape_bg_yellow;
@@ -265,7 +265,7 @@ public class StatusView extends RelativeLayout {
 				backgroudDrawableId = R.drawable.signal_2_fully;
 			}
 			break;
-		// 丢失红色
+		// 露陋脢搂潞矛脡芦
 		case Constant.NET_STATUS_LOST:
 		case Constant.NET_STATUS_CLOSED:
 			textColorId = R.color.statusbar_text_red;
@@ -276,7 +276,7 @@ public class StatusView extends RelativeLayout {
 				backgroudDrawableId = R.drawable.signal_4_fully;
 			}
 			break;
-		// 默认红色
+		// 脛卢脠脧潞矛脡芦
 		default:
 			textColorId = R.color.statusbar_text_red;
 			// backgroudDrawableId = R.drawable.statusbar_shape_bg_red;
@@ -307,25 +307,25 @@ public class StatusView extends RelativeLayout {
 		int textColorId;
 		int backgroudDrawableId;
 
-		// 网络状态不改变时,不做任何界面刷新处理
+		// 脥酶脗莽脳麓脤卢虏禄赂脛卤盲脢卤,虏禄脳枚脠脦潞脦陆莽脙忙脣垄脨脗麓娄脌铆
 		switch (status) {
-		// 正常绿色
+		// 脮媒鲁拢脗脤脡芦
 		case Constant.NET_STATUS_OK:
 			textColorId = R.color.statusbar_text_green;
 			backgroudDrawableId = R.drawable.signal_0_fully;
 			break;
-		// 微弱黄色
+		// 脦垄脠玫禄脝脡芦
 		case Constant.NET_STATUS_WEAK:
 			textColorId = R.color.statusbar_text_yellow;
 			backgroudDrawableId = R.drawable.signal_2_fully;
 			break;
-		// 丢失红色
+		// 露陋脢搂潞矛脡芦
 		case Constant.NET_STATUS_LOST:
 		case Constant.NET_STATUS_CLOSED:
 			textColorId = R.color.statusbar_text_red;
 			backgroudDrawableId = R.drawable.signal_4_fully;
 			break;
-		// 默认红色
+		// 脛卢脠脧潞矛脡芦
 		default:
 			textColorId = R.color.statusbar_text_red;
 			backgroudDrawableId = R.drawable.signal_4_fully;
