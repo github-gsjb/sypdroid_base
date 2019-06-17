@@ -108,7 +108,6 @@ public class SpydroidActivity extends FragmentActivity {
 		//初始化设置数据
 		setOptionsData();
 
-
 		setContentView(R.layout.spydroid);
 
 		device = TABLET;
