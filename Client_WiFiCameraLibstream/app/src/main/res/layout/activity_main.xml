@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--SerfaceView-->
+        <net.majorkernelpanic.streaming.gl.SurfaceView
+            android:id="@+id/surface"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!--IP地址TextView-->
+        <TextView
+            android:id="@+id/ipadress"
+            android:layout_width="match_parent"
+            android:layout_height="133dp"
+            android:textSize="30dp"
+            android:textColor="#fff"
+            android:layout_gravity="bottom"
+            android:textAlignment="center"
+            android:text="null" />
+    </FrameLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
