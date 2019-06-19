@@ -286,6 +286,7 @@ public class EncoderDebugger {
 							mNV21.setColorPanesReversed(true);
 							if (VERBOSE) Log.d(TAG, "U and V pane are reversed");
 						} else {
+//
 
 							Log.v(TAG, "The encoder "+mEncoderName +"throw new RuntimeException Incorrect U or V pane");
 						}

@@ -1,64 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#001629">
+    android:background="#001629"
+    android:layout_height="match_parent" >
 
-    <net.majorkernelpanic.streaming.gl.SurfaceView
-        android:id="@+id/tablet_camera_view"
-        android:layout_width="match_parent"
+   <net.majorkernelpanic.streaming.gl.SurfaceView
+       android:id="@+id/tablet_camera_view"
+       android:layout_width="match_parent"
 
-        android:layout_height="match_parent"
-        android:background="@drawable/preview"
-        android:gravity="center" />
+       android:layout_height="match_parent"
+       android:background="@drawable/preview"
+       android:gravity="center" />
+    
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentRight="true"
+       android:layout_marginBottom="49dp"
+       android:layout_marginLeft="25dp"
+       android:layout_marginRight="25dp"
+       android:text="@string/preview"
+       android:gravity="center"
+       android:id="@+id/tooltip"
+       android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/tooltip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="49dp"
-        android:gravity="center"
-        android:text="@string/preview"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+   <Button
+       android:id="@+id/textshezhi"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentBottom="true"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentRight="true"
+       android:layout_marginBottom="4dp"
+       android:text="打开设置" />
 
+   <Button
+       android:id="@+id/paizhao"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentRight="true"
+       android:layout_centerVertical="true"
 
-    <Button
-        android:id="@+id/paizhao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:text="拍照" />
-
-    <Button
-        android:id="@+id/textshezhi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="50dp"
-        android:text="打开设置" />
-
-    <Button
-        android:id="@+id/preview_btnOpenWifiHotspot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textshezhi"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        android:text="打开热点" />
-
-    <Button
-        android:id="@+id/luxiang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/paizhao"
-        android:layout_alignParentRight="true"
-        android:text="开始录像" />
+       android:layout_marginBottom="4dp"
+       android:text="拍照" />
 
 </RelativeLayout>

@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.apparatus.utils.ToastTool;
 
@@ -49,7 +48,6 @@ import net.majorkernelpanic.streaming.rtsp.RtspServer;
 import net.majorkernelpanic.streaming.video.H264Stream;
 import net.majorkernelpanic.streaming.video.VideoStream;
 
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 public class PreviewFragment extends Fragment {
@@ -60,7 +58,6 @@ public class PreviewFragment extends Fragment {
     private TextView mTextView;
     private Button textshezhiBtn; //设置按钮
     private Button paizhaoiBtn; //拍照按钮
-    private Button luxiangBtn; //录像按钮
     //打开热点按钮
     private Button btnOpenWifiHotspot;
     private CustomHttpServer mHttpServer;
@@ -118,41 +115,21 @@ public class PreviewFragment extends Fragment {
         paizhaoiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean boolTakePicture =  SessionBuilder.getInstance().getH264Stream().doTakePicture();//拍照
-                if (boolTakePicture){
-                    Toast.makeText(getActivity(),"拍照成功" , Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getActivity(),"拍照失败" , Toast.LENGTH_SHORT).show();
-                }
+//				SessionBuilder.getInstance().h264Stream.doTakePicture(); //拍照
+//                SessionBuilder.getInstance().doTakePicture();
+                SessionBuilder.getInstance().getH264Stream().doTakePicture();
+//                new VideoStream() {
+//                    @Override
+//                    public String getSessionDescription() throws IllegalStateException {
+//                        return null;
+//                    }
+//                }.doTakePicture();
+//                Camera rCamera = SessionBuilder.getInstance().h264Stream.getMCamera();
+
+//                H264Stream h264Stream = new H264Stream();
+//                h264Stream.doTakePicture(); //拍照
             }
         });
-
-
-        luxiangBtn = (Button) rootView.findViewById(R.id.luxiang);
-        luxiangBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                SessionBuilder.getInstance().getH264Stream().openCamera();
-                H264Stream h264Stream = new H264Stream(0);
-                try {
-                    h264Stream.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //开始录像
-//                boolean booldoStartRecorder =  SessionBuilder.getInstance().getH264Stream().doStartRecorder();//录像
-//                if (booldoStartRecorder){
-//                    Toast.makeText(getActivity(),"正在录像" , Toast.LENGTH_SHORT).show();
-//                }else{
-//                    Toast.makeText(getActivity(),"录像结束" , Toast.LENGTH_SHORT).show();
-//                }
-                //停止录像
-
-            }
-        });
-
-
-
 
         if (((SpydroidActivity) getActivity()).device == ((SpydroidActivity) getActivity()).TABLET) {
 

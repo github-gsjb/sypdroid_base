@@ -53,29 +53,5 @@ public class FileUtil {
 
     }
 
-    /**保存Bitmap到sdcard
-     *
-     */
-    public static String saveVideoPath(){
-
-        String path = initPath();
-        long dataTake = System.currentTimeMillis();
-        String videoName = path + "/" + dataTake +".mp4";
-        Log.i(TAG, "saveBitmap:jpegName = " + videoName);
-//        try {
-//            FileOutputStream fout = new FileOutputStream(jpegName);
-//            BufferedOutputStream bos = new BufferedOutputStream(fout);
-//            b.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-//            bos.flush();
-//            bos.close();
-//            Log.i(TAG, "saveBitmap成功");
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            Log.i(TAG, "saveBitmap:失败");
-//            e.printStackTrace();
-//        }
-        return videoName;
-    }
-
 
 }
