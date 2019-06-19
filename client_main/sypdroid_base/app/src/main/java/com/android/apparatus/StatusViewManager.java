@@ -30,7 +30,7 @@ import java.util.Locale;
 @SuppressLint("NewApi")
 public class StatusViewManager {
 
-	private final int UPDATE_MIN_INTERVAL = 10000; // 网络状态最小刷新间隔
+	private final int UPDATE_MIN_INTERVAL = 10000; // 脥酶脗莽脳麓脤卢脳卯脨隆脣垄脨脗录盲赂么
 
 	private Context mContext;
 	private BroadcastReceiver mReceiver;
@@ -41,7 +41,7 @@ public class StatusViewManager {
 	private StatusView mStatusView;
 
 	/**
-	 * 信号强度状态更新线程
+	 * 脨脜潞脜脟驴露脠脳麓脤卢赂眉脨脗脧脽鲁脤
 	 */
 	private Runnable mSignalStrengthChangeRunnable = new Runnable() {
 		@Override
@@ -56,7 +56,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * 注册广播监听
+	 * 脳垄虏谩鹿茫虏楼录脿脤媒
 	 */
 	public void registerStatusBarReceiver() {
 		mContext.registerReceiver(mReceiver, mFilter);
@@ -65,7 +65,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * 取消广播监听
+	 * 脠隆脧没鹿茫虏楼录脿脤媒
 	 */
 	public void unregisterStatusBarReceiver() {
 		mContext.unregisterReceiver(mReceiver);
@@ -91,26 +91,26 @@ public class StatusViewManager {
 				String action = intent.getAction();
 
 				switch (action) {
-				// 时间广播
+				// 脢卤录盲鹿茫虏楼
 				case Intent.ACTION_TIME_TICK:
 					updateTaskStatus(Constant.TASK_STATUS_CONTINUE);
 					break;
-				// 网络连接状态(网络切换,网络开关)
+				// 脥酶脗莽脕卢陆脫脳麓脤卢(脥酶脗莽脟脨禄禄,脥酶脗莽驴陋鹿脴)
 				case ConnectivityManager.CONNECTIVITY_ACTION:
 					updateNetWorkStatus();
 					break;
-				// WiFi信号强度变化
+				// WiFi脨脜潞脜脟驴露脠卤盲禄炉
 				case WifiManager.RSSI_CHANGED_ACTION:
 					mHandler.removeCallbacks(mSignalStrengthChangeRunnable);
 					mHandler.postDelayed(mSignalStrengthChangeRunnable, UPDATE_MIN_INTERVAL);
 					updateNetWorkStatus();
 					break;
-				// GPS连接状态(Gps开关)
+				// GPS脕卢陆脫脳麓脤卢(Gps驴陋鹿脴)
 				case LocationManager.MODE_CHANGED_ACTION:
 				case LocationManager.PROVIDERS_CHANGED_ACTION:
 					updateGpsStatus();
 					break;
-				// 电量变化
+				// 碌莽脕驴卤盲禄炉
 				case Intent.ACTION_BATTERY_CHANGED:
 					int level = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
 					int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, 0);
@@ -124,7 +124,7 @@ public class StatusViewManager {
 			}
 		};
 
-		// 初始化各个状态, 电量不需要刻意初始化
+		// 鲁玫脢录禄炉赂梅赂枚脳麓脤卢, 碌莽脕驴虏禄脨猫脪陋驴脤脪芒鲁玫脢录禄炉
 		updateTaskStatus(Constant.TASK_STATUS_OK);
 		updateNetWorkStatus();
 		updateGpsStatus();
@@ -144,13 +144,13 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * 刷新电量
+	 * 脣垄脨脗碌莽脕驴
 	 *
 	 * @param percentage
 	 */
 	private void updateBatteryStatus(int percentage) {
 
-		// 低电量20,15,10,5的时候,发送警告广播
+		// 碌脥碌莽脕驴20,15,10,5碌脛脢卤潞貌,路垄脣脥戮炉赂忙鹿茫虏楼
 		if (percentage == 20 || percentage == 15 || percentage == 10 || percentage == 5) {
 			StatusUtils.sendBroadcast(mContext, Constant.Action.BATTERY_STATUS, Constant.EXTRA.BATTERY_STATUS_EXTRA,
 					percentage);
@@ -161,7 +161,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * 刷新时间任务状态
+	 * 脣垄脨脗脢卤录盲脠脦脦帽脳麓脤卢
 	 * 
 	 * @param status
 	 */
@@ -173,7 +173,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * 刷新Gps状态
+	 * 脣垄脨脗Gps脳麓脤卢
 	 */
 	private void updateGpsStatus() {
 
@@ -185,7 +185,7 @@ public class StatusViewManager {
 			status = Constant.GPS_STATUS_CLOSED;
 		}
 
-		// 发送无GPS警告广播
+		// 路垄脣脥脦脼GPS戮炉赂忙鹿茫虏楼
 		if (status == Constant.GPS_STATUS_CLOSED) {
 			StatusUtils.sendBroadcast(mContext, Constant.Action.GPS_STATUS, Constant.EXTRA.GPS_STATUS_EXTRA,
 					Constant.GPS_STATUS_CLOSED);
@@ -196,7 +196,7 @@ public class StatusViewManager {
 	}
 
 	/*
-	 * 获取经纬度
+	 * 禄帽脠隆戮颅脦鲁露脠
 	 */
 	private String getLocation() {
 		double latitude = 0.0;
@@ -214,19 +214,19 @@ public class StatusViewManager {
 		}
 		if (bfind) {
 			LocationListener locationListener = new LocationListener() {
-				// Provider被enable时触发此函数，比如GPS被打开
+				// Provider卤禄enable脢卤麓楼路垄麓脣潞炉脢媒拢卢卤脠脠莽GPS卤禄麓貌驴陋
 				@Override
 				public void onProviderEnabled(String provider) {
 
 				}
 
-				// Provider被disable时触发此函数，比如GPS被关闭
+				// Provider卤禄disable脢卤麓楼路垄麓脣潞炉脢媒拢卢卤脠脠莽GPS卤禄鹿脴卤脮
 				@Override
 				public void onProviderDisabled(String provider) {
 
 				}
 
-				// 当坐标改变时触发此函数，如果Provider传进相同的坐标，它就不会被触发
+				// 碌卤脳酶卤锚赂脛卤盲脢卤麓楼路垄麓脣潞炉脢媒拢卢脠莽鹿没Provider麓芦陆酶脧脿脥卢碌脛脳酶卤锚拢卢脣眉戮脥虏禄禄谩卤禄麓楼路垄
 				@Override
 				public void onLocationChanged(Location location) {
 					if (location != null) {
@@ -244,8 +244,8 @@ public class StatusViewManager {
 			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 0, locationListener);
 			Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 			if (location != null) {
-				latitude = location.getLatitude(); // 经度
-				longitude = location.getLongitude(); // 纬度
+				latitude = location.getLatitude(); // 戮颅露脠
+				longitude = location.getLongitude(); // 脦鲁露脠
 			}
 
 		}
@@ -253,7 +253,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * 刷新网络信号状态
+	 * 脣垄脨脗脥酶脗莽脨脜潞脜脳麓脤卢
 	 */
 	private void updateNetWorkStatus() {
 		mStatusView.refreshNetView(getMobileLevel());
@@ -261,7 +261,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * 刷新空间大小
+	 * 脣垄脨脗驴脮录盲麓贸脨隆
 	 */
 	private void updateSpaceStatus() {
 		String space = getAvailableSpace();
@@ -269,7 +269,7 @@ public class StatusViewManager {
 	}
 
 	/**
-	 * 获取剩余空间
+	 * 禄帽脠隆脢拢脫脿驴脮录盲
 	 */
 	@SuppressLint("NewApi")
 	private String getAvailableSpace() {
@@ -295,14 +295,14 @@ public class StatusViewManager {
 			super.onSignalStrengthsChanged(signalStrength);
 			mSignalStrength = signalStrength;
 			mHandler.removeCallbacks(mSignalStrengthChangeRunnable);
-			// 最小更新时间为500ms
+			// 脳卯脨隆赂眉脨脗脢卤录盲脦陋500ms
 			mHandler.postDelayed(mSignalStrengthChangeRunnable, UPDATE_MIN_INTERVAL);
 		}
 
 	}
 
 	/**
-	 * 获取蜂窝连接的强度状态
+	 * 禄帽脠隆路盲脦脩脕卢陆脫碌脛脟驴露脠脳麓脤卢
 	 *
 	 * @return
 	 */
@@ -318,20 +318,20 @@ public class StatusViewManager {
 		String[] parts = signalStrength.split(" ");
 
 		switch (mTelephonyManager.getNetworkType()) {
-		// 移动联通2G
+		// 脪脝露炉脕陋脥篓2G
 		case TelephonyManager.NETWORK_TYPE_GPRS:
 		case TelephonyManager.NETWORK_TYPE_EDGE:
 			level = StatusUtils.getGsmLevel(parts);
 			break;
-		// 电信2G
+		// 碌莽脨脜2G
 		case TelephonyManager.NETWORK_TYPE_CDMA:
 		case TelephonyManager.NETWORK_TYPE_1xRTT:
 			break;
-		// 4G网络
+		// 4G脥酶脗莽
 		case TelephonyManager.NETWORK_TYPE_LTE:
 			level = StatusUtils.getLteLevel(parts);
 			break;
-		// 移动3G网络
+		// 脪脝露炉3G脥酶脗莽
 		case TelephonyManager.NETWORK_TYPE_HSDPA:
 			level = StatusUtils.getSdcdmaLevel(parts);
 			break;

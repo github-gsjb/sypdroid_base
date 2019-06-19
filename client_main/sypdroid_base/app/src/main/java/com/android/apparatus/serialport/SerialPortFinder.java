@@ -1,12 +1,12 @@
 package com.android.apparatus.serialport;
 
-import android.util.Log;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
+
+import android.util.Log;
 
 public class SerialPortFinder {
 	private static final String TAG = SerialPortFinder.class.getSimpleName();

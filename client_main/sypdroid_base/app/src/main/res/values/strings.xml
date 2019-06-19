@@ -55,5 +55,57 @@
     <string name="page0">Main</string>
     <string name="page1">Preview</string>
     <string name="page2">About</string>
-    
+
+    <string name="curCatagoryNoFiles">该分类没有文件</string>
+    <string name="curDirNoChilds">当前文件夹没有文件</string>
+    <string name="file_image">图片</string>
+    <string name="file_video">视频</string>
+    <string name="file_media_cnt">(%1$s)</string>
+    <string name="file_choosed">已选</string>
+    <string name="file_choosedCnt">删除(%1$s)</string>
+
+    <string name="menu_playback">回放</string>
+    <string name="menu_video_ratio">视频分辨率设置</string>
+    <string name="menu_video_time">视频时长设置</string>
+    <string name="menu_language">语言设置</string>
+    <string name="menu_wlan">wlan设置</string>
+    <string name="menu_mobile_data">移动数据</string>
+    <string name="menu_mimetic_diagram">2.4G无线模拟图传频率选择</string>
+    <string name="menu_lcd">LCD亮度设置</string>
+    <string name="menu_gps">GPS水印开关</string>
+    <string name="menu_date">日期修改</string>
+    <string name="menu_restore_factory">恢复出厂设置</string>
+    <string name="menu_format">格式化</string>
+    <string name="menu_version">版本信息</string>
+
+    <string name="submenu_video_ratio1">1920*1080@30fps</string>
+    <string name="submenu_video_ratio2">1280*720@30fps</string>
+    <string name="submenu_video_time1">关闭</string>
+    <string name="submenu_video_time2">10min</string>
+    <string name="submenu_video_time3">20min</string>
+    <string name="submenu_video_time4">30min</string>
+    <string name="submenu_wlan_on">开启</string>
+    <string name="submenu_wlan_off">关闭</string>
+    <string name="submenu_mobile_on">开启</string>
+    <string name="submenu_mobile_off">关闭</string>
+    <string name="submenu_mimetic_on">开启</string>
+    <string name="submenu_mimetic_off">关闭</string>
+    <string name="submenu_gps_on">开启</string>
+    <string name="submenu_gps_off">关闭</string>
+    <string name="submenu_mimetic_diagram1">CH1-2370MHz</string>
+    <string name="submenu_mimetic_diagram2">CH2-2468MHz</string>
+    <string name="submenu_mimetic_diagram3">CH3-2510MHz</string>
+    <string name="submenu_mimetic_diagram4">CH4-2570MHz</string>
+    <string name="submenu_language1">简体</string>
+    <string name="submenu_language2">繁体</string>
+    <string name="submenu_language3">英文</string>
+
+    <string name="submenu_version">当前的版本是:</string>
+    <string name="submenu_format">是否对设备格式化</string>
+    <string name="submenu_restore_factory">是否对设备恢复出厂设置</string>
+    <string name="submenu_lcd">是否对设备进行亮度调节</string>
+    <string name="submenu_date">是否对设备日期进行修改</string>
+    <string name="submenu_time">是否对设备时间进行修改</string>
+
+    <string name="cancel">取消</string>
 </resources>

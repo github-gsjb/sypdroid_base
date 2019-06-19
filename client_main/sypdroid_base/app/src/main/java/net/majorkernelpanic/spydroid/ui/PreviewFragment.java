@@ -101,7 +101,6 @@ public class PreviewFragment extends Fragment {
         textshezhiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(getContext(), OptionsActivity.class);
                 startActivityForResult(intent, 0);
             }

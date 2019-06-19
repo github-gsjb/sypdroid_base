@@ -11,8 +11,8 @@
         <item>2</item>
         <item>1</item>
     </string-array>
-    
-    
+
+
     <string-array name="audioEncoderArray">
         <item>AMR-NB</item>
         <item>AAC</item>
@@ -22,7 +22,7 @@
         <item>3</item>
         <item>5</item>
     </string-array>
-    
+
     <!-- RESOLUTION -->
     <string-array name="videoResolutionArray">
         <item>1280x720</item>
@@ -30,7 +30,7 @@
         <item>320x240</item>
         <item>176x144</item>
     </string-array>
-    
+
     <!-- FRAMERATE -->
     <string-array name="videoFramerateArray">
         <item>20 fps</item>
@@ -45,7 +45,7 @@
         <item>10</item>
         <item>8</item>
     </string-array>
-    
+
     <!-- BITRATE -->
     <string-array name="videoBitrateArray">
         <item>5000 kbps</item>
@@ -72,5 +72,92 @@
         <item>100</item>
         <item>50</item>
     </string-array>
-    
+
+
+    <string-array name="main_menu">
+        <item>@string/menu_playback</item>
+        <item>@string/menu_video_ratio</item>
+        <item>@string/menu_video_time</item>
+        <item>@string/menu_language</item>
+        <item>@string/menu_wlan</item>
+        <item>@string/menu_mobile_data</item>
+        <item>@string/menu_mimetic_diagram</item>
+        <item>@string/menu_gps</item>
+        <item>@string/menu_lcd</item>
+        <item>@string/menu_date</item>
+        <item>@string/menu_restore_factory</item>
+        <item>@string/menu_format</item>
+        <item>@string/menu_version</item>
+    </string-array>
+
+
+    <!--显示MenuActiivty的内容-->
+    <string-array name="sub_menu_playback">
+        <item>@string/file_image</item>
+        <item>@string/file_video</item>
+    </string-array>
+
+    <string-array name="sub_menu_video_ratio">
+        <item>@string/submenu_video_ratio1</item>
+        <item>@string/submenu_video_ratio2</item>
+    </string-array>
+
+    <string-array name="sub_menu_video_time">
+        <item>@string/submenu_video_time1</item>
+        <item>@string/submenu_video_time2</item>
+        <item>@string/submenu_video_time3</item>
+        <item>@string/submenu_video_time4</item>
+    </string-array>
+
+    <string-array name="sub_menu_language">
+        <item>@string/submenu_language1</item>
+        <item>@string/submenu_language2</item>
+        <item>@string/submenu_language3</item>
+    </string-array>
+
+    <string-array name="sub_menu_wlan">
+        <item>@string/submenu_wlan_on</item>
+        <item>@string/submenu_wlan_off</item>
+    </string-array>
+
+    <string-array name="sub_menu_mobile_data">
+        <item>@string/submenu_mobile_on</item>
+        <item>@string/submenu_mobile_off</item>
+    </string-array>
+
+    <string-array name="sub_menu_mimetic_diagram">
+        <item>@string/submenu_mimetic_on</item>
+        <item>@string/submenu_mimetic_off</item>
+        <item>@string/submenu_mimetic_diagram1</item>
+        <item>@string/submenu_mimetic_diagram2</item>
+        <item>@string/submenu_mimetic_diagram3</item>
+        <item>@string/submenu_mimetic_diagram3</item>
+    </string-array>
+
+    <string-array name="sub_menu_lcd">
+        <item>@string/submenu_lcd</item>
+    </string-array>
+
+    <string-array name="sub_menu_gps">
+        <item>@string/submenu_gps_on</item>
+        <item>@string/submenu_gps_off</item>
+    </string-array>
+
+    <string-array name="sub_menu_date">
+        <item>@string/submenu_date</item>
+        <item>@string/submenu_time</item>
+    </string-array>
+
+    <string-array name="sub_menu_restore_factory">
+        <item>@string/submenu_restore_factory</item>
+    </string-array>
+
+    <string-array name="sub_menu_format">
+        <item>@string/submenu_format</item>
+
+    </string-array>
+
+    <string-array name="sub_menu_version">
+        <item>@string/submenu_version</item>
+    </string-array>
 </resources>

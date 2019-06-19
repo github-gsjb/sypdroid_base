@@ -34,15 +34,15 @@ public class Utils {
 		try {
 			if (diff < 0) {
 				result.append(format.format(new Date(time)));
-			} else if (diff < MIN) {// 1·ÖÖÓÖ®Ç°
-				result.append("¸Õ¸Õ");
+			} else if (diff < MIN) {// 1ï¿½ï¿½ï¿½ï¿½Ö®Ç°
+				result.append("ï¿½Õ¸ï¿½");
 			} else if (diff < HOUR) {// 1Ð¡Ê±Ö®Ç°
-				result.append(diff / MIN).append("·ÖÖÓÇ°");
-			} else if (diff < DAY) {// 1ÌìÖ®Ç°
+				result.append(diff / MIN).append("ï¿½ï¿½ï¿½ï¿½Ç°");
+			} else if (diff < DAY) {// 1ï¿½ï¿½Ö®Ç°
 				result.append(diff / HOUR).append("Ð¡Ê±Ç°");
-			} else if (diff < MONTH) {// 1ÔÂÖ®Ç°
-				result.append(diff / DAY).append("ÌìÇ°");
-			} else {// ºÜ¾ÃÖ®Ç°
+			} else if (diff < MONTH) {// 1ï¿½ï¿½Ö®Ç°
+				result.append(diff / DAY).append("ï¿½ï¿½Ç°");
+			} else {// ï¿½Ü¾ï¿½Ö®Ç°
 				result.append(format.format(new Date(time)));
 			}
 		} catch (Exception e) {
@@ -57,7 +57,7 @@ public class Utils {
 	}
 
 	/**
-	 * Í¬·þÎñÆ÷Ê±¼ä²îÔÚ5·ÖÖÓÄÚ²»ÏÔÊ¾Ê±¼ä£¬Ò»Ð¡Ê±ÄÚÐ¡Ê±HH:mm ÆäËûÏÔÊ¾MM-dd HH:mm
+	 * Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½Ê¾Ê±ï¿½ä£¬Ò»Ð¡Ê±ï¿½ï¿½Ð¡Ê±HH:mm ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾MM-dd HH:mm
 	 * 
 	 * @param time
 	 * @return
@@ -69,10 +69,10 @@ public class Utils {
 		long HOUR = 60 * MIN;
 		long DAY = 24 * HOUR;
 		try {
-			if (diff < MIN * 5) {// 5·ÖÖÓÖ®Ç°
-			} else if (diff < DAY) {// 1ÌìÖ®Ç°
+			if (diff < MIN * 5) {// 5ï¿½ï¿½ï¿½ï¿½Ö®Ç°
+			} else if (diff < DAY) {// 1ï¿½ï¿½Ö®Ç°
 				result.append(format2.format(new Date(time)));
-			} else {// ºÜ¾ÃÖ®Ç°
+			} else {// ï¿½Ü¾ï¿½Ö®Ç°
 				result.append(format.format(new Date(time)));
 			}
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class Utils {
 
 	/**
 	 * @param cxt
-	 * @return ÆÁÄ»¿í
+	 * @return ï¿½ï¿½Ä»ï¿½ï¿½
 	 */
 	public static int getScreenWidth(Activity cxt) {
 		WindowManager m = cxt.getWindowManager();
@@ -100,7 +100,7 @@ public class Utils {
 
 	/**
 	 * @param cxt
-	 * @return °æ±¾ºÅ
+	 * @return ï¿½æ±¾ï¿½ï¿½
 	 */
 	public static String getVersion(Context context) {
 		String version_name = null;
@@ -115,14 +115,14 @@ public class Utils {
 	}
 
 	/**
-	 * »ñÈ¡ÆÁÄ»¸ß¶È(px)
+	 * ï¿½ï¿½È¡ï¿½ï¿½Ä»ï¿½ß¶ï¿½(px)
 	 */
 	public static int getScreenHeight(Context context) {
 		return context.getResources().getDisplayMetrics().heightPixels;
 	}
 
 	/**
-	 * »ñÈ¡ÆÁÄ»¿í¶È(px)
+	 * ï¿½ï¿½È¡ï¿½ï¿½Ä»ï¿½ï¿½ï¿½(px)
 	 */
 	public static int getScreenWidth(Context context) {
 		return context.getResources().getDisplayMetrics().widthPixels;
@@ -178,23 +178,23 @@ public class Utils {
 	}
 
 	/**
-	 * Í¨¹ý¶Ô±ÈµÃµ½Óë¿í¸ß±È×î½Ó½üµÄÔ¤ÀÀ³ß´ç£¨Èç¹ûÓÐÏàÍ¬³ß´ç£¬ÓÅÏÈÑ¡Ôñ£©
+	 * Í¨ï¿½ï¿½ï¿½Ô±ÈµÃµï¿½ï¿½ï¿½ï¿½ß±ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½Ô¤ï¿½ï¿½ï¿½ß´ç£¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ß´ç£¬ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
 	 *
 	 * @param isPortrait
-	 *            ÊÇ·ñÊúÆÁ
+	 *            ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param surfaceWidth
-	 *            ÐèÒª±»½øÐÐ¶Ô±ÈµÄÔ­¿í
+	 *            ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ô±Èµï¿½Ô­ï¿½ï¿½
 	 * @param surfaceHeight
-	 *            ÐèÒª±»½øÐÐ¶Ô±ÈµÄÔ­¸ß
+	 *            ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ô±Èµï¿½Ô­ï¿½ï¿½
 	 * @param preSizeList
-	 *            ÐèÒª¶Ô±ÈµÄÔ¤ÀÀ³ß´çÁÐ±í
-	 * @return µÃµ½ÓëÔ­¿í¸ß±ÈÀý×î½Ó½üµÄ³ß´ç
+	 *            ï¿½ï¿½Òªï¿½Ô±Èµï¿½Ô¤ï¿½ï¿½ï¿½ß´ï¿½ï¿½Ð±ï¿½
+	 * @return ï¿½Ãµï¿½ï¿½ï¿½Ô­ï¿½ï¿½ß±ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½Ä³ß´ï¿½
 	 */
 	public static Camera.Size getCloselyPreSize(boolean isPortrait, int surfaceWidth, int surfaceHeight,
                                                 List<Camera.Size> preSizeList) {
 		int reqTmpWidth;
 		int reqTmpHeight;
-		// µ±ÆÁÄ»Îª´¹Ö±µÄÊ±ºòÐèÒª°Ñ¿í¸ßÖµ½øÐÐµ÷»»£¬±£Ö¤¿í´óÓÚ¸ß
+		// ï¿½ï¿½ï¿½ï¿½Ä»Îªï¿½ï¿½Ö±ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Òªï¿½Ñ¿ï¿½ï¿½Öµï¿½ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½
 		if (isPortrait) {
 			reqTmpWidth = surfaceHeight;
 			reqTmpHeight = surfaceWidth;
@@ -202,14 +202,14 @@ public class Utils {
 			reqTmpWidth = surfaceWidth;
 			reqTmpHeight = surfaceHeight;
 		}
-		// ÏÈ²éÕÒpreviewÖÐÊÇ·ñ´æÔÚÓësurfaceviewÏàÍ¬¿í¸ßµÄ³ß´ç
+		// ï¿½È²ï¿½ï¿½ï¿½previewï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½surfaceviewï¿½ï¿½Í¬ï¿½ï¿½ßµÄ³ß´ï¿½
 		for (Camera.Size size : preSizeList) {
 			if ((size.width == reqTmpWidth) && (size.height == reqTmpHeight)) {
 				return size;
 			}
 		}
 
-		// µÃµ½Óë´«ÈëµÄ¿í¸ß±È×î½Ó½üµÄsize
+		// ï¿½Ãµï¿½ï¿½ë´«ï¿½ï¿½Ä¿ï¿½ß±ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½size
 		float reqRatio = ((float) reqTmpWidth) / reqTmpHeight;
 		float curRatio, deltaRatio;
 		float deltaRatioMin = Float.MAX_VALUE;

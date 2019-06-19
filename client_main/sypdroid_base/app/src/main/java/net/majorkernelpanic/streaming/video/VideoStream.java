@@ -783,7 +783,6 @@ public abstract class VideoStream extends MediaStream {
 
         if (mCamera != null && mRecorder2Started == false){
             try {
-
                 mMediaRecorder = new MediaRecorder();
                 mMediaRecorder.setCamera(mCamera);
                 mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);

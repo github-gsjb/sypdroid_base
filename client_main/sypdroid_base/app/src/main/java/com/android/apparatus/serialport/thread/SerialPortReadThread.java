@@ -1,9 +1,9 @@
 package com.android.apparatus.serialport.thread;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.io.InputStream;
+
+import android.util.Log;
 
 public abstract class SerialPortReadThread extends Thread {
 
