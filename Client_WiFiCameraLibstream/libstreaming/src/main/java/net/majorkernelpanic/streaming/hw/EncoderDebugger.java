@@ -1,19 +1,21 @@
 /*
- * Copyright (C) 2011-2015 GUIGUI Simon, fyhertz@gmail.com
+ * Copyright (C) 2011-2014 GUIGUI Simon, fyhertz@gmail.com
  *
- * This file is part of libstreaming (https://github.com/fyhertz/libstreaming)
+ * This file is part of Spydroid (http://code.google.com/p/spydroid-ipcamera/)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Spydroid is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This source code is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * You should have received a copy of the GNU General Public License
+ * along with this source code; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 package net.majorkernelpanic.streaming.hw;
@@ -22,6 +24,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.ByteBuffer;
+
 import net.majorkernelpanic.streaming.hw.CodecManager.Codec;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -68,10 +71,10 @@ public class EncoderDebugger {
 	/** Will be incremented every time this test is modified. */
 	private static final int VERSION = 3;
 
-	/** Bit rate that will be used with the encoder. */
+	/** Bitrate that will be used with the encoder. */
 	private final static int BITRATE = 1000000;
 
-	/** Frame rate that will be used to test the encoder. */
+	/** Framerate that will be used to test the encoder. */
 	private final static int FRAMERATE = 20;
 
 	private final static String MIME_TYPE = "video/avc";
@@ -135,7 +138,7 @@ public class EncoderDebugger {
 		return mNV21;
 	}
 
-	/** A log of all the errors that occurred during the test. */
+	/** A log of all the errors that occured during the test. */
 	public String getErrorLog() {
 		return mErrorLog;
 	}
@@ -224,7 +227,7 @@ public class EncoderDebugger {
 
 					if (VERBOSE) Log.v(TAG, "SPS and PPS in b64: SPS="+mB64SPS+", PPS="+mB64PPS);
 
-					// Feeds the encoder with an image repeatedly to produce some NAL units
+					// Feeds the encoder with an image repeatidly to produce some NAL units
 					encode();
 
 					// We now try to decode the NALs with decoders available on the phone
@@ -283,7 +286,8 @@ public class EncoderDebugger {
 							mNV21.setColorPanesReversed(true);
 							if (VERBOSE) Log.d(TAG, "U and V pane are reversed");
 						} else {
-							throw new RuntimeException("Incorrect U or V pane...");
+
+							Log.v(TAG, "The encoder "+mEncoderName +"throw new RuntimeException Incorrect U or V pane");
 						}
 					}
 
@@ -476,22 +480,24 @@ public class EncoderDebugger {
 					stride = format.getInteger("stride");
 					if (stride<mWidth) stride = mWidth;
 				}
-				if (format.containsKey(MediaFormat.KEY_COLOR_FORMAT) && format.getInteger(MediaFormat.KEY_COLOR_FORMAT)>0) {
-					colorFormat = format.getInteger(MediaFormat.KEY_COLOR_FORMAT);
+				if (format.containsKey(MediaFormat.KEY_COLOR_FORMAT)) {
+					if (format.getInteger(MediaFormat.KEY_COLOR_FORMAT)>0) {
+						colorFormat = format.getInteger(MediaFormat.KEY_COLOR_FORMAT);
+					}
 				}
 			}
 		}
 
 		switch (colorFormat) {
-		case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar:
-		case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar:
-		case MediaCodecInfo.CodecCapabilities.COLOR_TI_FormatYUV420PackedSemiPlanar:
-			planar = false;
-			break;
-		case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar:
-		case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar:
-			planar = true;
-			break;
+			case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar:
+			case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar:
+			case MediaCodecInfo.CodecCapabilities.COLOR_TI_FormatYUV420PackedSemiPlanar:
+				planar = false;
+				break;
+			case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar:
+			case MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar:
+				planar = true;
+				break;
 		}
 
 		for (int i=0;i<mSize;i++) {
@@ -519,17 +525,21 @@ public class EncoderDebugger {
 
 	/**
 	 * Instantiates and starts the encoder.
-	 * @throws IOException The encoder cannot be configured
 	 */
-	private void configureEncoder() throws IOException  {
-		mEncoder = MediaCodec.createByCodecName(mEncoderName);
-		MediaFormat mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE, mWidth, mHeight);
-		mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, BITRATE);
-		mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, FRAMERATE);
-		mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, mEncoderColorFormat);
-		mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
-		mEncoder.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
-		mEncoder.start();
+	private void configureEncoder()  {
+		try {
+			mEncoder = MediaCodec.createByCodecName(mEncoderName);
+
+			MediaFormat mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE, mWidth, mHeight);
+			mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, BITRATE);
+			mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, FRAMERATE);
+			mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, mEncoderColorFormat);
+			mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 1);
+			mEncoder.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+			mEncoder.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void releaseEncoder() {
@@ -545,9 +555,8 @@ public class EncoderDebugger {
 
 	/**
 	 * Instantiates and starts the decoder.
-	 * @throws IOException The decoder cannot be configured
 	 */
-	private void configureDecoder() throws IOException {
+	private void configureDecoder() {
 		byte[] prefix = new byte[] {0x00,0x00,0x00,0x01};
 
 		ByteBuffer csd0 = ByteBuffer.allocate(4+mSPS.length+4+mPPS.length);
@@ -556,7 +565,11 @@ public class EncoderDebugger {
 		csd0.put(new byte[] {0x00,0x00,0x00,0x01});
 		csd0.put(mPPS);
 
-		mDecoder = MediaCodec.createByCodecName(mDecoderName);
+		try {
+			mDecoder = MediaCodec.createByCodecName(mDecoderName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		MediaFormat mediaFormat = MediaFormat.createVideoFormat(MIME_TYPE, mWidth, mHeight);
 		mediaFormat.setByteBuffer("csd-0", csd0);
 		mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, mDecoderColorFormat);
@@ -675,7 +688,7 @@ public class EncoderDebugger {
 			elapsed = timestamp() - now;
 		}
 
-		check(mPPS != null && mSPS != null, "Could not determine the SPS & PPS.");
+		check(mPPS != null & mSPS != null, "Could not determine the SPS & PPS.");
 		mB64PPS = Base64.encodeToString(mPPS, 0, mPPS.length, Base64.NO_WRAP);
 		mB64SPS = Base64.encodeToString(mSPS, 0, mSPS.length, Base64.NO_WRAP);
 
@@ -799,16 +812,16 @@ public class EncoderDebugger {
 
 	/**
 	 * Makes sure the NAL has a header or not.
-	 * @param withPrefix If set to true, the NAL will be preceded with 0x00000001.
+	 * @param withPrefix If set to true, the NAL will be preceeded with 0x00000001.
 	 */
 	private boolean hasPrefix(byte[] nal) {
-		return nal[0] == 0 && nal[1] == 0 && nal[2] == 0 && nal[3] == 0x01;
+		if (nal[0] == 0 && nal[1] == 0 && nal[2] == 0 && nal[3] == 0x01)
+			return true;
+		else
+			return false;
 	}
 
-	/**
-	 * @throws IOException The decoder cannot be configured.
-	 */
-	private void encodeDecode() throws IOException {
+	private void encodeDecode() {
 		encode();
 		try {
 			configureDecoder();

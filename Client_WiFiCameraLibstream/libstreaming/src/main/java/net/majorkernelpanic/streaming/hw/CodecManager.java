@@ -1,19 +1,21 @@
 /*
- * Copyright (C) 2011-2015 GUIGUI Simon, fyhertz@gmail.com
+ * Copyright (C) 2011-2014 GUIGUI Simon, fyhertz@gmail.com
  *
- * This file is part of libstreaming (https://github.com/fyhertz/libstreaming)
+ * This file is part of Spydroid (http://code.google.com/p/spydroid-ipcamera/)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Spydroid is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This source code is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this source code; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 package net.majorkernelpanic.streaming.hw;
@@ -21,6 +23,7 @@ package net.majorkernelpanic.streaming.hw;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
 import android.annotation.SuppressLint;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
@@ -32,12 +35,12 @@ public class CodecManager {
 	public final static String TAG = "CodecManager";
 
 	public static final int[] SUPPORTED_COLOR_FORMATS = {
-		MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar,
-		MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar,
-		MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar,
-		MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar,
-		MediaCodecInfo.CodecCapabilities.COLOR_TI_FormatYUV420PackedSemiPlanar
-	};		
+			MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420SemiPlanar,
+			MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedSemiPlanar,
+			MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Planar,
+			MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420PackedPlanar,
+			MediaCodecInfo.CodecCapabilities.COLOR_TI_FormatYUV420PackedSemiPlanar
+	};
 
 	private static Codec[] sEncoders = null;
 	private static Codec[] sDecoders = null;
@@ -59,7 +62,7 @@ public class CodecManager {
 	public synchronized static Codec[] findEncodersForMimeType(String mimeType) {
 		if (sEncoders != null) return sEncoders;
 
-		ArrayList<Codec> encoders = new ArrayList<>();
+		ArrayList<Codec> encoders = new ArrayList<Codec>();
 
 		// We loop through the encoders, apparently this can take up to a sec (testes on a GS3)
 		for(int j = MediaCodecList.getCodecCount() - 1; j >= 0; j--){
@@ -71,7 +74,7 @@ public class CodecManager {
 				if (types[i].equalsIgnoreCase(mimeType)) {
 					try {
 						MediaCodecInfo.CodecCapabilities capabilities = codecInfo.getCapabilitiesForType(mimeType);
-						Set<Integer> formats = new HashSet<>();
+						Set<Integer> formats = new HashSet<Integer>();
 
 						// And through the color formats supported
 						for (int k = 0; k < capabilities.colorFormats.length; k++) {
@@ -83,7 +86,7 @@ public class CodecManager {
 								}
 							}
 						}
-						
+
 						Codec codec = new Codec(codecInfo.getName(), (Integer[]) formats.toArray(new Integer[formats.size()]));
 						encoders.add(codec);
 					} catch (Exception e) {
@@ -105,7 +108,7 @@ public class CodecManager {
 	@SuppressLint("NewApi")
 	public synchronized static Codec[] findDecodersForMimeType(String mimeType) {
 		if (sDecoders != null) return sDecoders;
-		ArrayList<Codec> decoders = new ArrayList<>();
+		ArrayList<Codec> decoders = new ArrayList<Codec>();
 
 		// We loop through the decoders, apparently this can take up to a sec (testes on a GS3)
 		for(int j = MediaCodecList.getCodecCount() - 1; j >= 0; j--){
@@ -117,7 +120,7 @@ public class CodecManager {
 				if (types[i].equalsIgnoreCase(mimeType)) {
 					try {
 						MediaCodecInfo.CodecCapabilities capabilities = codecInfo.getCapabilitiesForType(mimeType);
-						Set<Integer> formats = new HashSet<>();
+						Set<Integer> formats = new HashSet<Integer>();
 
 						// And through the color formats supported
 						for (int k = 0; k < capabilities.colorFormats.length; k++) {
@@ -147,7 +150,7 @@ public class CodecManager {
 				Codec codec = sDecoders[0];
 				sDecoders[0] = sDecoders[i];
 				sDecoders[i] = codec;
-			} 
+			}
 		}
 
 		return sDecoders;

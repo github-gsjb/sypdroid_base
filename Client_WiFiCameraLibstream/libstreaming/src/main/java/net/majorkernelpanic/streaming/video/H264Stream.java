@@ -123,10 +123,10 @@ public class H264Stream extends VideoStream {
 		updateCamera();
 		try {
 			//大于640自动调整
-			if (mQuality.resX>=640) {
-				// Using the MediaCodec API with the buffer method for high resolutions is too slow
-				mMode = MODE_MEDIARECORDER_API;
-			}
+//			if (mQuality.resX>=640) {
+//				// Using the MediaCodec API with the buffer method for high resolutions is too slow
+//				mMode = MODE_MEDIARECORDER_API;
+//			}
 			EncoderDebugger debugger = EncoderDebugger.debug(mSettings, mQuality.resX, mQuality.resY);
 			return new MP4Config(debugger.getB64SPS(), debugger.getB64PPS());
 		} catch (Exception e) {

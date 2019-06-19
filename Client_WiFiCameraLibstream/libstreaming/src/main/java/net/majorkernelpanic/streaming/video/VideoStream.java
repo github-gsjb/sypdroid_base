@@ -459,43 +459,19 @@ public abstract class VideoStream extends MediaStream {
 			@Override
 			public void onPreviewFrame(byte[] data, Camera camera) {
 				oldnow = now;
-				now = System.nanoTime()/1000;
-				if (i++>3) {
+				now = System.nanoTime() / 1000;
+				if (i++ > 3) {
 					i = 0;
 					//Log.d(TAG,"Measured: "+1000000L/(now-oldnow)+" fps.");
 				}
 				try {
 					int bufferIndex = mMediaCodec.dequeueInputBuffer(500000);
-					if (bufferIndex>=0) {
+					if (bufferIndex >= 0) {
 						inputBuffers[bufferIndex].clear();
-						if (data == null) {
-							Log.e(TAG, "Symptom of the \"Callback buffer was to small\" problem...");
-						}else {
-
-							Camera.CameraInfo camInfo = new Camera.CameraInfo();
-							Camera.getCameraInfo(mCameraId, camInfo);
-							Camera.Size previewSize = camera.getParameters().getPreviewSize();
-							int cameraRotationOffset = camInfo.orientation, mHeight = previewSize.height, mWidth = previewSize.width;
-
-							Log.e("DEBUG", "orientation = " + cameraRotationOffset + ", width = " + previewSize.width + ", height = " + previewSize.height);
-							// Cancel mirror effect for blink camera.
-							byte tempData;
-							for (int i = 0; i < mHeight * 3 / 2; i++) {
-								for (int j = 0; j < mWidth / 2; j++) {
-									tempData = data[i * mWidth + j];
-									data[i * mWidth + j] = data[(i + 1) * mWidth - 1 - j];
-									data[(i + 1) * mWidth - 1 - j] = tempData;
-								}
-							}
-							// TODO: 2018/6/4 modify pic's attributes
-							// mirror
-//							Util.yuvRotate(data, 1, previewSize.width, previewSize.height, 90);
-							convertor.convert(data, inputBuffers[bufferIndex]);
-						}
-						// 塞进一个地方，让它去编码
+						convertor.convert(data, inputBuffers[bufferIndex]);
 						mMediaCodec.queueInputBuffer(bufferIndex, 0, inputBuffers[bufferIndex].position(), now, 0);
 					} else {
-						Log.e(TAG,"No buffer available !");
+						Log.e(TAG, "No buffer available !");
 					}
 				} finally {
 					mCamera.addCallbackBuffer(data);
