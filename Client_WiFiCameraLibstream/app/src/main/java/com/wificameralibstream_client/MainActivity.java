@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         // Starts the RTSP server 启动RTSP服务器
         this.startService(new Intent(this,RtspServer.class));
 
+        //测试提交
+
     }
 
     /*获取本地的IP地址*/
