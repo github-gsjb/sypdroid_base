@@ -18,6 +18,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
         }
     }
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
@@ -29,4 +34,6 @@ dependencies {
     implementation files('libs/scpkix-jdk15on-1.47.0.2.jar')
     implementation files('libs/scprov-jdk15on-1.47.0.2.jar')
     implementation 'com.android.support:multidex:1.0.3'
+    //增加eventbus
+    implementation 'org.greenrobot:eventbus:3.0.0'
 }

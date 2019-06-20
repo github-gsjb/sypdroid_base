@@ -53,12 +53,4 @@
         android:layout_marginTop="10dp"
         android:text="打开热点" />
 
-    <Button
-        android:id="@+id/luxiang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/paizhao"
-        android:layout_alignParentRight="true"
-        android:text="开始录像" />
-
 </RelativeLayout>

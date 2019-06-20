@@ -26,7 +26,6 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import net.majorkernelpanic.spydroid.ui.SpydroidActivity;
 import net.majorkernelpanic.streaming.MediaStream;
 import net.majorkernelpanic.streaming.Stream;
 import net.majorkernelpanic.streaming.exceptions.CameraInUseException;
@@ -48,15 +47,12 @@ import android.hardware.Camera.Parameters;
 import android.media.MediaCodec;
 import android.media.MediaCodecInfo;
 import android.media.MediaFormat;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Looper;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
-import android.widget.Toast;
 
 import com.bl.FileUtil;
 import com.bl.ImageUtil;
@@ -97,9 +93,6 @@ public abstract class VideoStream extends MediaStream {
     protected int mMaxFps = 0;
 
     protected Camera rCamera;
-
-    public MediaRecorder mediaRecorder2;
-    protected boolean mRecorder2Started = false;
     /**
      * Don't use this class directly.
      * Uses CAMERA_FACING_BACK by default.
@@ -569,7 +562,7 @@ public abstract class VideoStream extends MediaStream {
      *
      * @throws RuntimeException Might happen if another app is already using the camera.
      */
-    public void openCamera() throws RuntimeException {
+    private void openCamera() throws RuntimeException {
         final Semaphore lock = new Semaphore(0);
         final RuntimeException[] exception = new RuntimeException[1];
         mCameraThread = new Thread(new Runnable() {
@@ -654,13 +647,12 @@ public abstract class VideoStream extends MediaStream {
     }
 
     //返回得到的
-    public Camera getMCamera() {
-        if (rCamera != null) {
+    public Camera getMCamera(){
+        if(rCamera != null){
             return rCamera;
         }
         return null;
     }
-
     protected synchronized void destroyCamera() {
         if (mCamera != null) {
             if (mStreaming) super.stop();
@@ -774,136 +766,47 @@ public abstract class VideoStream extends MediaStream {
     }
 
     /**
-     * 录像
-     */
-    public boolean doStartRecorder() {
-        if (mCamera == null) {
-            openCamera();
-        }
-
-        if (mCamera != null && mRecorder2Started == false){
-            try {
-
-                mMediaRecorder = new MediaRecorder();
-                mMediaRecorder.setCamera(mCamera);
-                mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-                mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-                mMediaRecorder.setVideoEncoder(mVideoEncoder);
-                mMediaRecorder.setPreviewDisplay(mSurfaceView.getHolder().getSurface());
-                mMediaRecorder.setVideoSize(mRequestedQuality.resX, mRequestedQuality.resY);
-//                mMediaRecorder.setVideoFrameRate(mRequestedQuality.framerate);
-
-                // The bandwidth actually consumed is often above what was requested
-                mMediaRecorder.setVideoEncodingBitRate((int) (mRequestedQuality.bitrate * 0.8));
-
-                // We write the ouput of the camera in a local socket instead of a file !
-                // This one little trick makes streaming feasible quiet simply: data from the camera
-                // can then be manipulated at the other end of the socket
-                mMediaRecorder.setOutputFile(FileUtil.saveVideoPath());
-
-                mMediaRecorder.prepare();
-                mMediaRecorder.start();
-
-
-
-
-////                File file = new File("/sdcard/video.mp4");
-////                if (file.exists()) {
-////                    // 如果文件存在，删除它，演示代码保证设备上只有一个录音文件
-////                    file.delete();
-////                }
-////            mCamera.unlock();
-//
-////            DisplayMetrics  displaysMetrics = new DisplayMetrics();
-////            getWindowManager().getDefaultDisplay().getMetrics( displaysMetrics );
-////            width = displaysMetrics.widthPixels;
-////            height = displaysMetrics.heightPixels;
-//
-//                mediaRecorder2 = new MediaRecorder();
-//                mediaRecorder2.setCamera(mCamera);
-//                mediaRecorder2.reset();
-////            mediaRecorder2.setVideoSize(320,240);
-//
-////            mediaRecorder2.setVideoSize(mRequestedQuality.resX, mRequestedQuality.resY);
-////            mediaRecorder2.setVideoFrameRate(mRequestedQuality.framerate);
-//
-//                // 设置音频录入源
-//                mediaRecorder2.setAudioSource(MediaRecorder.AudioSource.MIC);
-//                // 设置视频图像的录入源
-//                mediaRecorder2.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-//                // 设置录入媒体的输出格式
-//                mediaRecorder2.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-//                // 设置音频的编码格式
-//                mediaRecorder2.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-//                // 设置视频的编码格式
-//                mediaRecorder2.setVideoEncoder(mVideoEncoder);
-//                // 设置视频的采样率，每秒4帧
-////            mediaRecorder2.setVideoFrameRate(30);
-//                // 设置录制视频文件的输出路径
-//                mediaRecorder2.setOutputFile(FileUtil.saveVideoPath());
-//                // 设置捕获视频图像的预览界面
-//                mediaRecorder2.setPreviewDisplay(mSurfaceView.getHolder().getSurface());
-//
-////            mediaRecorder2.setOnErrorListener();
-////            mediaRecorder2.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-////
-////                @Override
-////                public boolean onError(MediaPlayer mp, int what, int extra) {
-////                    // 发生错误，停止录制
-////                    mediaRecorder2.stop();
-////                    mediaRecorder2.release();
-//////                    mediaRecorder2 = null;
-////                    return false;
-////                }
-////
-//////                    @Override
-//////                    public void onError(MediaRecorder mr, int what, int extra) {
-//////                        // 发生错误，停止录制
-//////                        mediaRecorder.stop();
-//////                        mediaRecorder.release();
-//////                        mediaRecorder = null;
-////////                        isRecording = false;
-////////                        btn_VideoStart.setEnabled(true);
-////////                        btn_VideoStop.setEnabled(false);
-////////                        Toast.makeText(SpydroidActivity.this, "录制出错", 0).show();
-//////                    }
-////            });
-//
-////                mCamera.stopPreview();
-////                mCamera.release();
-////                mCamera = null;
-//                mCamera.unlock();
-//                // 准备、开始
-//                mediaRecorder2.prepare();
-//                mediaRecorder2.start();
-//                mRecorder2Started = true;
-////                btn_VideoStart.setEnabled(false);
-////                btn_VideoStop.setEnabled(true);
-////                isRecording = true;
-////                Toast.makeText(VideoActivity.this, "开始录像", 0).show();
-
-                return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        }else if(mRecorder2Started == true){ //正在录制
-            mediaRecorder2.stop();
-            mediaRecorder2.reset();
-            mRecorder2Started = false;
-            return false;
-        }
-
-        return false;
-    }
-
-    /**
      * 拍照
      */
-    public boolean doTakePicture() {
+    public void doTakePicture() {
+//		mCamera.takePicture((Camera.ShutterCallback) mShutterCallback, null, null);
+//		mCamera.takePicture(new Camera.ShutterCallback() {
+//			@Override
+//			public void onShutter() {
+//				Log.i(TAG, "myShutterCallback:onShutter...");
+//			}
+//		}, new Camera.PictureCallback() {
+//			@Override
+//			public void onPictureTaken(byte[] data, Camera camera) {
+//
+//			}
+//		}, new Camera.PictureCallback() {
+//			@Override
+//			public void onPictureTaken(byte[] data, Camera camera) {
+//				// TODO Auto-generated method stub
+//				Log.i(TAG, "myJpegCallback:onPictureTaken...");
+//				Bitmap b = null;
+//				if(null != data){
+//					b = BitmapFactory.decodeByteArray(data, 0, data.length);//data是字节数据，将其解析成位图
+//					mCamera.stopPreview();
+//					mPreviewStarted = false;
+//				}
+//				//保存图片到sdcard
+//				if(null != b)
+//				{
+//					//设置FOCUS_MODE_CONTINUOUS_VIDEO)之后，myParam.set("rotation", 90)失效。
+//					//图片竟然不能旋转了，故这里要旋转下
+//					Bitmap rotaBitmap = ImageUtil.getRotateBitmap(b, 90.0f);
+//					FileUtil.saveBitmap(rotaBitmap);
+//				}
+//				//再次进入预览
+//				mCamera.startPreview();
+//				mPreviewStarted = true;
+//			}
+//
+//		});
 
+//        mCamera = Camera.open(0);
         if (mCamera == null) {
             openCamera();
         }
@@ -921,9 +824,41 @@ public abstract class VideoStream extends MediaStream {
             }, mJpegPictureCallback);
 
             Log.i(TAG, "拍照成功");
-            return true;
         }
-        return false;
+
+
+//		if(mPreviewStarted && (mCamera != null)){
+//			mCamera.takePicture(new Camera.ShutterCallback() {
+//				@Override
+//				public void onShutter() {
+//					Log.i(TAG, "myShutterCallback:onShutter...");
+//				}
+//			}, null, new Camera.PictureCallback() {
+//				@Override
+//				public void onPictureTaken(byte[] data, Camera camera) {
+//					// TODO Auto-generated method stub
+//					Log.i(TAG, "myJpegCallback:onPictureTaken...");
+//					Bitmap b = null;
+//					if(null != data){
+//						b = BitmapFactory.decodeByteArray(data, 0, data.length);//data是字节数据，将其解析成位图
+//						mCamera.stopPreview();
+//						mPreviewStarted = false;
+//					}
+//					//保存图片到sdcard
+//					if(null != b)
+//					{
+//						//设置FOCUS_MODE_CONTINUOUS_VIDEO)之后，myParam.set("rotation", 90)失效。
+//						//图片竟然不能旋转了，故这里要旋转下
+//						Bitmap rotaBitmap = ImageUtil.getRotateBitmap(b, 90.0f);
+//						FileUtil.saveBitmap(rotaBitmap);
+//					}
+//					//再次进入预览
+//					mCamera.startPreview();
+//					mPreviewStarted = true;
+//				}
+//
+//			});
+//		}
     }
 
     /*为了实现拍照的快门声音及拍照保存照片需要下面三个回调变量*/

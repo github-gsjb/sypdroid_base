@@ -31,10 +31,10 @@ import com.android.apparatus.StatusView;
 import net.majorkernelpanic.spydroid.R;
 
 /**
- * 显示状态图标的界面
+ * 脧脭脢戮脳麓脤卢脥录卤锚碌脛陆莽脙忙
  */
 public class TabletFragment extends Fragment {
-    //显示图标状态-各种信号状态指示的view
+    //脧脭脢戮脥录卤锚脳麓脤卢-赂梅脰脰脨脜潞脜脳麓脤卢脰赂脢戮碌脛view
     private StatusView statusView;
 
     @Override

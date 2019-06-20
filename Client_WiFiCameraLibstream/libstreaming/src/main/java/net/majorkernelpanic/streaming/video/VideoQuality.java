@@ -24,6 +24,8 @@ import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.util.Log;
 
+import com.wificamera.WiFiCamera_Constant;
+
 /**
  * A class that represents the quality of a video stream. 
  * It contains the resolution, the framerate (in fps) and the bitrate (in bps) of the stream.
@@ -31,9 +33,9 @@ import android.util.Log;
 public class VideoQuality {
 
 	public final static String TAG = "VideoQuality";
-	
+
 	/** Default video stream quality. */
-	public final static VideoQuality DEFAULT_VIDEO_QUALITY = new VideoQuality(1920,1080,20,500000);
+	public final static VideoQuality DEFAULT_VIDEO_QUALITY = new VideoQuality(WiFiCamera_Constant.Camera_mWidth,WiFiCamera_Constant.Camera_mHeight,20,500000);
 
 	/**	Represents a quality for a video stream. */ 
 	public VideoQuality() {}

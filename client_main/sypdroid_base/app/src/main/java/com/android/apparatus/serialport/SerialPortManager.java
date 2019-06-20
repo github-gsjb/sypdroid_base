@@ -1,19 +1,19 @@
 package com.android.apparatus.serialport;
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Message;
-import android.util.Log;
-
-import com.android.apparatus.serialport.listener.OnOpenSerialPortListener;
-import com.android.apparatus.serialport.listener.OnSerialPortDataListener;
-import com.android.apparatus.serialport.thread.SerialPortReadThread;
-
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import com.android.apparatus.serialport.listener.OnOpenSerialPortListener;
+import com.android.apparatus.serialport.listener.OnSerialPortDataListener;
+import com.android.apparatus.serialport.thread.SerialPortReadThread;
+
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
+import android.util.Log;
 
 public class SerialPortManager extends SerialPort {
 
@@ -30,13 +30,13 @@ public class SerialPortManager extends SerialPort {
 
 	public boolean openSerialPort(File device, int baudRate) {
 
-		Log.i(TAG, "openSerialPort: " + String.format("鎵撳紑涓插彛 %s  娉㈢壒鐜? %s", device.getPath(), baudRate));
+		Log.i(TAG, "openSerialPort: " + String.format("打开串口路径 %s 波特率 %s", device.getPath(), baudRate));
 
 		// 鏍￠獙涓插彛鏉冮檺
 		if (!device.canRead() || !device.canWrite()) {
 			boolean chmod777 = chmod777(device);
 			if (!chmod777) {
-				Log.i(TAG, "openSerialPort: 娌℃湁璇诲啓鏉冮檺");
+				Log.i(TAG, "openSerialPort: 打开串口没权限，失败");
 				if (null != mOnOpenSerialPortListener) {
 					mOnOpenSerialPortListener.onFail(device, OnOpenSerialPortListener.Status.NO_READ_WRITE_PERMISSION);
 				}
@@ -48,13 +48,13 @@ public class SerialPortManager extends SerialPort {
 			mFd = open(device.getAbsolutePath(), baudRate, 0);
 			mFileInputStream = new FileInputStream(mFd);
 			mFileOutputStream = new FileOutputStream(mFd);
-			Log.i(TAG, "openSerialPort: 涓插彛宸茬粡鎵撳紑 " + mFd);
+			Log.i(TAG, "openSerialPort: 打开串口成功 " + mFd);
 			if (null != mOnOpenSerialPortListener) {
 				mOnOpenSerialPortListener.onSuccess(device);
 			}
-			// 寮?鍚彂閫佹秷鎭殑绾跨▼
+			//开始发送数据的线程
 			startSendThread();
-			// 寮?鍚帴鏀舵秷鎭殑绾跨▼
+			//开始阅读数据的线程
 			startReadThread();
 			return true;
 		} catch (Exception e) {
@@ -75,9 +75,9 @@ public class SerialPortManager extends SerialPort {
 			close();
 			mFd = null;
 		}
-		// 鍋滄鍙戦?佹秷鎭殑绾跨▼
+		//停止发送的线程
 		stopSendThread();
-		// 鍋滄鎺ユ敹娑堟伅鐨勭嚎绋?
+		//停止阅读的线程
 		stopReadThread();
 
 		if (null != mFileInputStream) {
@@ -167,7 +167,6 @@ public class SerialPortManager extends SerialPort {
 			@Override
 			public void onDataReceived(byte[] bytes) {
 				if (null != mOnSerialPortDataListener) {
-
 					mOnSerialPortDataListener.onDataReceived(bytes);
 				}
 			}

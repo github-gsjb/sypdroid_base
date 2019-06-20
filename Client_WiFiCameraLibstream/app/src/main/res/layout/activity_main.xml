@@ -25,6 +25,23 @@
             android:layout_gravity="bottom"
             android:textAlignment="center"
             android:text="null" />
+
+        <Button
+            android:id="@+id/btn_paizhao"
+            android:layout_gravity="right|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="拍照"/>
+
+        <Button
+            android:id="@+id/btn_luxiang"
+            android:layout_marginTop="200dp"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="录像"/>
+
+
     </FrameLayout>
 
 

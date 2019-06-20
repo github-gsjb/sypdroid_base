@@ -50,6 +50,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 
+import com.wificamera.WiFiCamera_Constant;
+
 /**
  * Don't use this class directly.
  */
@@ -601,7 +603,7 @@ public abstract class VideoStream extends MediaStream {
 					parameters.setFlashMode(mFlashEnabled?Parameters.FLASH_MODE_TORCH:Parameters.FLASH_MODE_OFF);
 				}
 				parameters.setRecordingHint(true);
-				parameters.setPreviewSize(1920, 1080); //添加设置分辨率
+				parameters.setPreviewSize(WiFiCamera_Constant.Camera_mWidth, WiFiCamera_Constant.Camera_mHeight); //添加设置分辨率
 				mCamera.setParameters(parameters);
 				mCamera.setDisplayOrientation(mOrientation);
 

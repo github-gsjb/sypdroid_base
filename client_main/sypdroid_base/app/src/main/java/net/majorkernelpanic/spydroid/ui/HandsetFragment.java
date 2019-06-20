@@ -195,15 +195,15 @@ public class HandsetFragment extends Fragment {
     	}
     	
     }
-	// 当与service的连接建立后被调用
+
     private final ServiceConnection mRtspServiceConnection = new ServiceConnection() {
-		// 当与service的连接建立后被调用
+
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			mRtspServer = (RtspServer) ((RtspServer.LocalBinder)service).getService();
 			update();
 		}
-		// 当与service的连接意外断开时被调用
+
 		@Override
 		public void onServiceDisconnected(ComponentName name) {}
 		

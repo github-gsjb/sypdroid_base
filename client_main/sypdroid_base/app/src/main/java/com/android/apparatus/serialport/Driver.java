@@ -1,9 +1,9 @@
 package com.android.apparatus.serialport;
 
-import android.util.Log;
-
 import java.io.File;
 import java.util.ArrayList;
+
+import android.util.Log;
 
 public class Driver {
 
@@ -21,11 +21,11 @@ public class Driver {
 		File dev = new File("/dev");
 
 		if (!dev.exists()) {
-			Log.i(TAG, "getDevices: " + dev.getAbsolutePath() + " 涓嶅瓨鍦�");
+			Log.i(TAG, "getDevices: " + dev.getAbsolutePath() + " 文件不存在");
 			return devices;
 		}
 		if (!dev.canRead()) {
-			Log.i(TAG, "getDevices: " + dev.getAbsolutePath() + " 娌℃湁璇诲彇鏉冮檺");
+			Log.i(TAG, "getDevices: " + dev.getAbsolutePath() + " 文件不可读");
 			return devices;
 		}
 
