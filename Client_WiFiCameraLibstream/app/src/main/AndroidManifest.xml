@@ -31,8 +31,9 @@
             </intent-filter>
         </activity>
 
-        //rtsp服务
+        <!--//rtsp服务-->
         <service android:name="net.majorkernelpanic.streaming.rtsp.RtspServer" />
+
     </application>
 
 </manifest>

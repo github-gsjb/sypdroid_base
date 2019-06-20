@@ -7,7 +7,10 @@ import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import net.majorkernelpanic.streaming.SessionBuilder;
@@ -22,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private SurfaceView mSurfaceView; //用来加载相机的mSurfaceView
     private TextView ipadress ; //显示推流的IP地址
     private String PORT = "8086"; //推流的端口
-
+    private Button btn_paizhao; //拍照按钮
+    private Button btn_luxiang;//录像按钮
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         mSurfaceView = (SurfaceView) findViewById(R.id.surface);
-
-
+        btn_paizhao = (Button) findViewById(R.id.btn_paizhao);
+        btn_luxiang = (Button) findViewById(R.id.btn_luxiang);
 
         // Sets the port of the RTSP server to 8086 设置推流的端口
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
@@ -46,10 +50,26 @@ public class MainActivity extends AppCompatActivity {
         // Configures the SessionBuilder 使用SessionBuilder开始推流
         SessionBuilder.getInstance()
                 .setSurfaceView(mSurfaceView)
-                .setPreviewOrientation(90)
+//                .setPreviewOrientation(90) //竖屏显示使用90 , 设备横屏注释
                 .setContext(getApplicationContext())
                 .setAudioEncoder(SessionBuilder.AUDIO_NONE)
                 .setVideoEncoder(SessionBuilder.VIDEO_H264);
+
+        //拍照
+        btn_paizhao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG,"点击拍照按钮");
+            }
+        });
+
+        //录像
+        btn_luxiang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG,"点击录像按钮");
+            }
+        });
 
         // Starts the RTSP server 启动RTSP服务器
         this.startService(new Intent(this,RtspServer.class));
