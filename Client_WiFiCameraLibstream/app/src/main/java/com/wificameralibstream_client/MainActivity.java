@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         btn_paizhao = (Button) findViewById(R.id.btn_paizhao);
         btn_luxiang = (Button) findViewById(R.id.btn_luxiang);
 
-//        manager = CameraManager.getInstance().setSurfaceView(mSurfaceView); //给摄像头设置SuerfaceView
-//        manager.initSurface();//初始化并开启摄像头
+        manager = CameraManager.getInstance().setSurfaceView(mSurfaceView); //给摄像头设置SuerfaceView
+        manager.initSurface();//初始化并开启摄像头
 
         // Sets the port of the RTSP server to 8086 设置推流的端口
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();

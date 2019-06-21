@@ -424,13 +424,13 @@ public abstract class VideoStream extends MediaStream {
 	protected void encodeWithMediaCodecMethod1() throws RuntimeException, IOException {
 
 		Log.d(TAG,"Video encoded using the MediaCodec API with a buffer");
-
+		Log.d(TAG,"开始摄像机开始推流");
 		// Updates the parameters of the camera if needed
 		createCamera();// 设置相机参数并开启相机
 		updateCamera();// 更新参数
 
 		// Estimates the frame rate of the camera
-		measureFramerate();
+		measureFramerate(); //设置摄像机的回调信息
 
 		// Starts the preview if needed
 		if (!mPreviewStarted) {
@@ -557,8 +557,10 @@ public abstract class VideoStream extends MediaStream {
 
 //					CameraManager.getInstance().mCamera.stopPreview();
 //					CameraManager.getInstance().mCamera.release();
-
+					CameraManager.getInstance().destroy();
 					mCamera = Camera.open(mCameraId);
+//					CameraManager.getInstance().mCamera = mCamera;
+
 				} catch (RuntimeException e) {
 					exception[0] = e;
 				} finally {
@@ -580,6 +582,7 @@ public abstract class VideoStream extends MediaStream {
 			throw new InvalidSurfaceException("Invalid surface !");
 
 		if (mCamera == null) {
+
 			openCamera();
 			mUpdated = false;
 			mUnlocked = false;
@@ -636,6 +639,13 @@ public abstract class VideoStream extends MediaStream {
 		if (mCamera != null) {
 			if (mStreaming) super.stop();
 			lockCamera();
+
+//			mCamera.setPreviewCallback(null);
+//			mCamera.stopPreview();
+//			mCamera.lock();
+//			mCamera.release();
+//			mCamera = null;
+
 			mCamera.stopPreview();
 			try {
 				mCamera.release();
@@ -646,6 +656,9 @@ public abstract class VideoStream extends MediaStream {
 			mCameraLooper.quit();
 			mUnlocked = false;
 			mPreviewStarted = false;
+			//停掉原来相机的时候打开CameraManager的相机
+			CameraManager.getInstance().initCamera();
+
 		}
 	}
 

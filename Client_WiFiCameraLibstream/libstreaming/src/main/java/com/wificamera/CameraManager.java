@@ -80,7 +80,7 @@ public class CameraManager {
     /**
      * 初始化摄像头
      */
-    private void initCamera() {
+    public void initCamera() {
         if (mCamera == null) {
             //摄像头设置，预览视频,实例化摄像头类对象  0为后置 1为前置
             mCamera = Camera.open(0);
@@ -91,26 +91,6 @@ public class CameraManager {
             p.setFlashMode("off");
 
             Camera.Parameters camParams = mCamera.getParameters();
-//            List<Camera.Size> sizes = camParams.getSupportedPreviewSizes();
-//            // Sort the list in ascending order
-//            Collections.sort(sizes, new Comparator<Camera.Size>() {
-//
-//                public int compare(final Camera.Size a, final Camera.Size b) {
-//                    return a.width * a.height - b.width * b.height;
-//                }
-//            });
-//
-//            // Pick the first preview size that is equal or bigger, or pick the last (biggest) option if we cannot
-//            // reach the initial settings of imageWidth/imageHeight.
-//            for (int i = 0; i < sizes.size(); i++) {
-//                if ((sizes.get(i).width >= CameraConfig.WIDTH && sizes.get(i).height >= CameraConfig.HEIGHT) || i == sizes.size() - 1) {
-//                    CameraConfig.WIDTH = sizes.get(i).width;
-//                    CameraConfig.HEIGHT = sizes.get(i).height;
-//
-//                    Log.v("cameraManager", "Changed to supported resolution: " + WiFiCamera_Constant.Camera_mWidth + "x" + WiFiCamera_Constant.Camera_mHeight);
-//                    break;
-//                }
-//            }
 
             //设置预览视频的尺寸，CIF格式352×288
             p.setPreviewSize(WiFiCamera_Constant.Camera_mWidth, WiFiCamera_Constant.Camera_mHeight);
@@ -131,15 +111,15 @@ public class CameraManager {
             mCamera.startPreview();
             //获取帧
             //预览的回调函数在开始预览的时候以中断方式被调用，每秒调用15次，回调函数在预览的同时调出正在播放的帧
-            mCamera.setPreviewCallback(new Camera.PreviewCallback() {
-                @Override
-                public void onPreviewFrame(byte[] data, Camera camera) {
-                    if(data != null){
-//                        onFrameCallback.onCameraFrame(data);
-                    }
-
-                }
-            });
+//            mCamera.setPreviewCallback(new Camera.PreviewCallback() {
+//                @Override
+//                public void onPreviewFrame(byte[] data, Camera camera) {
+//                    if(data != null){
+////                        onFrameCallback.onCameraFrame(data);
+//                    }
+//
+//                }
+//            });
 
         }
     }
@@ -147,6 +127,15 @@ public class CameraManager {
     public void startPreview() {
         //开始预览
         mCamera.startPreview();
+    }
+
+    public Camera getOpenCamera() {
+
+        if (mCamera == null){
+
+            initCamera();
+        }
+        return mCamera;
     }
 
     /**

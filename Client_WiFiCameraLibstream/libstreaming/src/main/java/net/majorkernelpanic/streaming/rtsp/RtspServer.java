@@ -422,7 +422,7 @@ public class RtspServer extends Service {
 
 			}
 
-			// Streaming stops when client disconnects
+			// Streaming stops when client disconnects //当服务断开连接的时候调用
 			boolean streaming = isStreaming();
 			mSession.syncStop();
 			if (streaming && !isStreaming()) {
