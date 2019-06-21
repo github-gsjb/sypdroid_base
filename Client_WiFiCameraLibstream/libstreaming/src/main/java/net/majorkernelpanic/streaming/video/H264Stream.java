@@ -85,6 +85,7 @@ public class H264Stream extends VideoStream {
 
 	/**
 	 * Starts the stream.
+	 * 开启媒体流.如果startPreview()没有被调用的话,这将打开摄像机并且展示预览
 	 * This will also open the camera and display the preview if {@link #startPreview()} has not already been called.
 	 */
 	public synchronized void start() throws IllegalStateException, IOException {

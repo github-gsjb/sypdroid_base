@@ -3,6 +3,7 @@ package com.wificameralibstream_client;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.hardware.Camera;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.wificamera.CameraManager;
 
 import net.majorkernelpanic.streaming.SessionBuilder;
 import net.majorkernelpanic.streaming.gl.SurfaceView;
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_paizhao; //拍照按钮
     private Button btn_luxiang;//录像按钮
 
+
+    private CameraManager manager; //摄像头管理者
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         mSurfaceView = (SurfaceView) findViewById(R.id.surface);
         btn_paizhao = (Button) findViewById(R.id.btn_paizhao);
         btn_luxiang = (Button) findViewById(R.id.btn_luxiang);
+
+//        manager = CameraManager.getInstance().setSurfaceView(mSurfaceView); //给摄像头设置SuerfaceView
+//        manager.initSurface();//初始化并开启摄像头
 
         // Sets the port of the RTSP server to 8086 设置推流的端口
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
@@ -60,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG,"点击拍照按钮");
+//                .startPreview();
+//                VideoStream.mCamera = Camera.open(0);
+//                VideoStream.mCamera.startPreview();
+
+
             }
         });
 

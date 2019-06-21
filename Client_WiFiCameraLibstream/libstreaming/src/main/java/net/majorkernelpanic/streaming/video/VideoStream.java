@@ -50,6 +50,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 
+import com.wificamera.CameraManager;
 import com.wificamera.WiFiCamera_Constant;
 
 /**
@@ -58,17 +59,17 @@ import com.wificamera.WiFiCamera_Constant;
 public abstract class VideoStream extends MediaStream {
 
 	protected final static String TAG = "VideoStream";
-
 	protected VideoQuality mRequestedQuality = VideoQuality.DEFAULT_VIDEO_QUALITY.clone();
 	protected VideoQuality mQuality = mRequestedQuality.clone();
 	protected SurfaceHolder.Callback mSurfaceHolderCallback = null;
 	protected SurfaceView mSurfaceView = null;
 	protected SharedPreferences mSettings = null;
-	protected int mVideoEncoder, mCameraId = 0;
+	protected int mVideoEncoder ;
+	public static int mCameraId = 0; //0代表前置摄像头
 	protected int mRequestedOrientation = 0, mOrientation = 0;
-	protected Camera mCamera;
-	protected Thread mCameraThread;
-	protected Looper mCameraLooper;
+	public static Camera mCamera; //修改mCamera为public使得在MainActivity中可以控制该对象
+	public static Thread mCameraThread;
+	public static Looper mCameraLooper;
 
 	protected boolean mCameraOpenedManually = true;
 	protected boolean mFlashEnabled = false;
@@ -544,7 +545,7 @@ public abstract class VideoStream extends MediaStream {
 	 * If an exception is thrown in this Looper thread, we bring it back into the main thread.
 	 * @throws RuntimeException Might happen if another app is already using the camera.
 	 */
-	private void openCamera() throws RuntimeException {
+	private static void openCamera() throws RuntimeException {
 		final Semaphore lock = new Semaphore(0);
 		final RuntimeException[] exception = new RuntimeException[1];
 		mCameraThread = new Thread(new Runnable() {
@@ -553,6 +554,10 @@ public abstract class VideoStream extends MediaStream {
 				Looper.prepare();
 				mCameraLooper = Looper.myLooper();
 				try {
+
+//					CameraManager.getInstance().mCamera.stopPreview();
+//					CameraManager.getInstance().mCamera.release();
+
 					mCamera = Camera.open(mCameraId);
 				} catch (RuntimeException e) {
 					exception[0] = e;
@@ -567,6 +572,7 @@ public abstract class VideoStream extends MediaStream {
 		if (exception[0] != null) throw new CameraInUseException(exception[0].getMessage());
 	}
 
+	//创建并开启摄像头
 	protected synchronized void createCamera() throws RuntimeException {
 		if (mSurfaceView == null)
 			throw new InvalidSurfaceException("Invalid surface !");
