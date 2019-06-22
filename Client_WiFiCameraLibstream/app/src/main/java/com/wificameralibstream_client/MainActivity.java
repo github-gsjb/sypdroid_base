@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 //                .startPreview();
 //                VideoStream.mCamera = Camera.open(0);
 //                VideoStream.mCamera.startPreview();
-
+                CameraManager.getInstance().doTakePicture();
 
             }
         });
